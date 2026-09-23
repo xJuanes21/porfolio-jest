@@ -1,0 +1,226 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-base: #09090b;
+    --accent-amber: #f59e0b;
+    --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+    background-color: var(--bg-base);
+    color: #f4f4f5; /* zinc-100 */
+    color-scheme: dark;
+  }
+
+  body {
+    overflow-x: clip;
+    min-height: 100vh;
+    background-color: #09090b;
+  }
+
+  ::selection {
+    background-color: rgba(245, 158, 11, 0.25);
+    color: #fef3c7;
+  }
+}
+
+/* Emil Kowalski Craft Card System */
+.craft-card {
+  position: relative;
+  background: rgba(18, 18, 22, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.07);
+  transition: border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.craft-card:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12),
+              0 20px 40px -15px rgba(0, 0, 0, 0.6);
+}
+
+/* Mouse spotlight overlay for cards */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.spotlight-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.06),
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.spotlight-card:hover::before {
+  opacity: 1;
+}
+
+/* Tactile button micro-physics (Emil Kowalski style) */
+.tactile-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  cursor: pointer;
+  transition: transform 0.12s cubic-bezier(0.2, 0, 0, 1),
+              background-color 0.2s ease,
+              border-color 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.tactile-btn:active {
+  transform: scale(0.97) translateY(1px);
+}
+
+/* Inner bevel effect */
+.inner-bevel {
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Kinematic text reveal masks */
+.mask-reveal {
+  overflow: hidden;
+  display: block;
+}
+
+.mask-reveal-inner {
+  display: block;
+  transform: translateY(100%);
+  will-change: transform;
+}
+
+/* Section divider that draws across screen */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.04) 70%, transparent 100%);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+/* Giant background watermark number */
+.stage-watermark {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  font-family: var(--font-mono);
+  font-size: clamp(8rem, 20vw, 17rem);
+  font-weight: 800;
+  line-height: 0.8;
+  color: rgba(255, 255, 255, 0.149);
+  z-index: 0;
+  letter-spacing: -0.05em;
+}
+
+/* ── Stage Deck: sections stack as numbered pages ─────────────────────────── */
+/* Native CSS sticky is removed. We use GSAP ScrollTrigger pinning instead 
+   so tall sections can scroll naturally without nested scrollbars. */
+.stage-layer {
+  position: relative;
+  z-index: 1;
+  background: #09090b;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 -24px 48px -28px rgba(0, 0, 0, 0.7);
+}
+
+/* Last stage lands as static so the footer stays reachable */
+.stage-final {
+  position: relative;
+  z-index: 1;
+  background: #09090b;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 -24px 48px -28px rgba(0, 0, 0, 0.7);
+}
+
+/* Slim scrollbar inside each stage */
+.stage-layer::-webkit-scrollbar {
+  width: 6px;
+}
+.stage-layer::-webkit-scrollbar-track {
+  background: transparent;
+}
+.stage-layer::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+}
+
+/* Clean scrollbar suppression */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ── Sticky Stack Card System ─────────────────────────────────────────────── */
+
+/* Container that holds all stacked cards */
+.stack-container {
+  position: relative;
+}
+
+/* Each individual sticky card layer */
+.stack-card {
+  position: sticky;
+  top: 80px;          /* offset so cards don't hide under navbar */
+  will-change: transform, opacity;
+  transform-origin: top center;
+  /* Smooth CSS fallback; GSAP overrides via inline styles */
+  transition: none;
+}
+
+/* Depth shadow that deepens as card goes further back */
+.stack-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.35) 100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+}
+
+/* Side-entry animation base states (GSAP resets these) */
+.from-left  { transform: translateX(-80px); opacity: 0; }
+.from-right { transform: translateX( 80px); opacity: 0; }
+
+/* Progress indicator strip for stacked sections */
+.stack-progress {
+  position: absolute;
+  left: -1.5rem;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: rgba(255,255,255,0.06);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.stack-progress-fill {
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(to bottom, #f59e0b, rgba(245,158,11,0.3));
+  border-radius: inherit;
+  will-change: height;
+}

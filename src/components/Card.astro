@@ -1,0 +1,16 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = "Card Title", description = "Card description" } = Astro.props;
+---
+
+<div class="craft-card spotlight-card p-6 rounded-2xl">
+  <h2 class="text-xl font-semibold text-white mb-2 tracking-tight">{title}</h2>
+  <p class="text-zinc-400 text-sm mb-4 leading-relaxed">{description}</p>
+  <button class="tactile-btn bg-zinc-100 hover:bg-white text-zinc-950 font-medium px-4 py-2 rounded-lg text-sm shadow-sm">
+    Acción
+  </button>    
+</div>

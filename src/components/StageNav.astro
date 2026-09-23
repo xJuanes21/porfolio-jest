@@ -1,0 +1,38 @@
+---
+const stages = [
+  { id: 'hero', num: '01', label: 'Inicio' },
+  { id: 'experience', num: '02', label: 'Experiencia' },
+  { id: 'projects', num: '03', label: 'Trabajo' },
+  { id: 'education', num: '04', label: 'Formación' },
+  { id: 'contact', num: '05', label: 'Contacto' },
+];
+---
+
+<div id="stage-rail" class="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col items-end pointer-events-none select-none">
+  <!-- Outer container -->
+  <div class="pointer-events-auto p-3 rounded-2xl border border-white/[0.06] bg-zinc-950/70 backdrop-blur-xl shadow-2xl flex flex-col gap-4 inner-bevel">
+    
+    <!-- Stage items -->
+    {stages.map((stage) => (
+      <a
+        href={`#${stage.id}`}
+        data-stage={stage.id}
+        class="stage-nav-item group flex items-center gap-3 transition-colors text-right focus:outline-none"
+      >
+        <!-- Label tooltip on hover or active -->
+        <span class="stage-label text-[11px] font-mono text-zinc-500 group-hover:text-zinc-200 transition-colors opacity-60 group-hover:opacity-100">
+          {stage.label}
+        </span>
+
+        <!-- Number & Dot Indicator -->
+        <div class="flex items-center gap-1.5">
+          <span class="stage-num font-mono text-[10px] text-zinc-600 group-hover:text-amber-400/90 transition-colors">
+            {stage.num}
+          </span>
+          <span class="stage-indicator-dot w-1.5 h-1.5 rounded-full bg-zinc-800 border border-white/10 group-hover:border-amber-400/60 group-hover:bg-amber-400/40 transition-all"></span>
+        </div>
+      </a>
+    ))}
+
+  </div>
+</div>

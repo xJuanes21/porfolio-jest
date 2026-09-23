@@ -1,17 +1,243 @@
 ---
-
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import StageNav from '../components/StageNav.astro';
+import Hero from '../components/Hero.astro';
+import Experience from '../components/Experience.astro';
+import Projects from '../components/Projects.astro';
+import BentoSkills from '../components/BentoSkills.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout 
+  title="Juan Esteban Salazar | Frontend Engineer & Interface Architect"
+  description="Portafolio de Juan Esteban Salazar Toro. Desarrollador Frontend enfocado en React 19, Next.js, TypeScript, arquitecturas modulares e interfaces táctiles con GSAP."
+>
+  <Navbar />
+  <StageNav />
+
+  <main class="relative">
+    <!-- Etapa 1: Hero -->
+    <Hero />
+
+    <!-- Etapa 2: Experiencia -->
+    <Experience />
+
+    <!-- Etapa 3: Trabajo / Proyectos -->
+    <Projects />
+
+    <!-- Etapa 4: Formación & Arquitectura -->
+    <BentoSkills />
+
+    <!-- Etapa 5: Contacto -->
+    <Contact />
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const initAnimations = () => {
+
+    // ── Reduced-motion: reveal everything instantly ──────────────────────────
+    if (prefersReducedMotion) {
+      document.querySelectorAll<HTMLElement>('.mask-reveal-inner').forEach(el => {
+        el.style.transform = 'translateY(0%)';
+      });
+      document.querySelectorAll<HTMLElement>('.section-divider').forEach(el => {
+        el.style.transform = 'scaleX(1)';
+      });
+      return;
+    }
+
+    // ── 1. Hero entrance timeline ────────────────────────────────────────────
+    gsap.timeline({ defaults: { ease: 'power3.out' } })
+      .from('.hero-badge',   { opacity: 0, y: -14, duration: 0.55 })
+      .to('.hero-title .mask-reveal-inner',
+                             { y: '0%', stagger: 0.11, duration: 0.85, ease: 'power4.out' }, '-=0.3')
+      .from('.hero-desc',    { opacity: 0, y: 14,  duration: 0.6 },  '-=0.55')
+      .from('.hero-cta a',   { opacity: 0, y: 12,  stagger: 0.08, duration: 0.4 }, '-=0.45')
+      .from('.hero-console', { opacity: 0, scale: 0.96, y: 18, duration: 0.8, ease: 'power3.out' }, '-=0.5');
+
+    // ── 2. Section dividers draw left-to-right ────────────────────────────────
+    document.querySelectorAll<HTMLElement>('.section-divider').forEach((divider) => {
+      gsap.to(divider, {
+        scaleX: 1,
+        duration: 1.1,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: divider, start: 'top 88%', once: true },
+      });
+    });
+
+    // ── 3. Heading mask reveals (non-hero sections) ───────────────────────────
+    document.querySelectorAll<HTMLElement>('section:not(#hero) .mask-reveal-inner').forEach((el) => {
+      gsap.to(el, {
+        y: '0%',
+        duration: 0.9,
+        ease: 'power4.out',
+        scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+      });
+    });
+
+    // ── 4. Parallax watermark numbers scrub ───────────────────────────────────
+    document.querySelectorAll<HTMLElement>('.stage-watermark').forEach((mark) => {
+      const section = mark.closest('section');
+      if (!section) return;
+      gsap.to(mark, {
+        y: -90,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.4,
+        },
+      });
+    });
+
+    // ── 5. Experience cards — alternating side-entry ──────────────────────────
+    document.querySelectorAll<HTMLElement>('.experience-card').forEach((card, i) => {
+      gsap.from(card, {
+        x:        i % 2 === 0 ? -80 : 80,
+        opacity:  0,
+        duration: 1.05,
+        ease:     'power3.out',
+        scrollTrigger: { trigger: card, scroller: '#experience', start: 'top 83%', once: true },
+      });
+    });
+
+    // ── 6. Bento Grid — ScrollTrigger.batch stagger ───────────────────────────
+    ScrollTrigger.batch('[data-bento-card]', {
+      scroller: '#projects',
+      onEnter: (cards) => {
+        gsap.from(cards, {
+          opacity:    0,
+          y:          28,
+          scale:      0.97,
+          duration:   0.7,
+          stagger:    0.08,
+          ease:       'power3.out',
+          clearProps: 'all',
+        });
+      },
+      start: 'top 88%',
+      once:  true,
+    });
+
+    // Hover lift — desktop only
+    if (window.matchMedia('(hover: hover)').matches) {
+      document.querySelectorAll<HTMLElement>('[data-bento-card]').forEach((card) => {
+        card.addEventListener('mouseenter', () =>
+          gsap.to(card, { y: -4, scale: 1.012, duration: 0.3, ease: 'power2.out' })
+        );
+        card.addEventListener('mouseleave', () =>
+          gsap.to(card, { y: 0, scale: 1, duration: 0.4, ease: 'power3.out' })
+        );
+      });
+    }
+
+    // ── 7. Education & Contact staggered fade-in ──────────────────────────────
+    [
+      { trigger: '#education', scroller: '#education', targets: '#education .craft-card' },
+      { trigger: '#contact',   targets: '.contact-card' },
+    ].forEach(({ trigger, scroller, targets }) => {
+      gsap.from(targets, {
+        opacity: 0,
+        y:       30,
+        duration: 0.75,
+        stagger:  0.12,
+        ease:    'power3.out',
+        scrollTrigger: { trigger, scroller, start: 'top 78%', once: true },
+      });
+    });
+
+    // ── 8. Stage navigator — active section tracking ──────────────────────────
+    const stageItems = document.querySelectorAll<HTMLElement>('.stage-nav-item');
+
+    const setActiveStage = (activeIndex: number) => {
+      stageItems.forEach((item, idx) => {
+        const num   = item.querySelector('.stage-num')            as HTMLElement | null;
+        const dot   = item.querySelector('.stage-indicator-dot') as HTMLElement | null;
+        const label = item.querySelector('.stage-label')         as HTMLElement | null;
+
+        if (idx === activeIndex) {
+          item.classList.add('active');
+          if (num)   gsap.to(num,   { color: '#f59e0b', duration: 0.28 });
+          if (dot)   gsap.to(dot,   { scale: 1.6, backgroundColor: '#f59e0b', borderColor: '#fef3c7', duration: 0.28 });
+          if (label) gsap.to(label, { opacity: 1, color: '#ffffff', x: -3, duration: 0.28 });
+        } else {
+          item.classList.remove('active');
+          if (num)   gsap.to(num,   { color: '#52525b', duration: 0.28 });
+          if (dot)   gsap.to(dot,   { scale: 1, backgroundColor: '#27272a', borderColor: 'rgba(255,255,255,0.1)', duration: 0.28 });
+          if (label) gsap.to(label, { opacity: 0.6, color: '#71717a', x: 0, duration: 0.28 });
+        }
+      });
+    };
+
+    [
+      { id: 'hero',       index: 0 },
+      { id: 'experience', index: 1 },
+      { id: 'projects',   index: 2 },
+      { id: 'education',  index: 3 },
+      { id: 'contact',    index: 4 },
+    ].forEach(({ id, index }) => {
+      ScrollTrigger.create({
+        trigger:     `#${id}`,
+        start:       'top 50%',
+        end:         'bottom 50%',
+        onEnter:     () => setActiveStage(index),
+        onEnterBack: () => setActiveStage(index),
+      });
+    });
+
+    setActiveStage(0);
+
+    // ── 9. Magnetic physics on CTA buttons ───────────────────────────────────
+    document.querySelectorAll<HTMLElement>('.magnetic-btn').forEach((btn) => {
+      btn.addEventListener('mousemove', (e: MouseEvent) => {
+        const r = btn.getBoundingClientRect();
+        gsap.to(btn, {
+          x: (e.clientX - r.left - r.width  / 2) * 0.18,
+          y: (e.clientY - r.top  - r.height / 2) * 0.18,
+          duration: 0.3,
+          ease: 'power2.out',
+        });
+      });
+      btn.addEventListener('mouseleave', () =>
+        gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'power3.out' })
+      );
+    });
+
+    // ── 10. Stage Deck Pinning (Cards Stacking) ──────────────────────────────
+    const stages = gsap.utils.toArray<HTMLElement>('.stage-layer');
+    stages.forEach((stage, i) => {
+      // Pin each stage to create a stacking effect.
+      // We use 'max' for end so it stays pinned while all subsequent sections scroll over it.
+      ScrollTrigger.create({
+        trigger: stage,
+        start: () => {
+          return stage.offsetHeight > window.innerHeight ? "bottom bottom" : "top top";
+        },
+        end: "max",
+        pin: true,
+        pinSpacing: false,
+        invalidateOnRefresh: true,
+      });
+    });
+
+  }; // end initAnimations
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAnimations);
+  } else {
+    initAnimations();
+  }
+</script>

@@ -1,0 +1,81 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Juan Esteban Salazar | Frontend Developer & React/Next.js Specialist",
+  description = "Portafolio de Juan Esteban Salazar Toro. Desarrollador Frontend enfocado en React, Next.js, TypeScript, micro-interacciones fluidas y desarrollo asistido por Inteligencia Artificial.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" class="dark scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph / Meta -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
+    <!-- Google Fonts: Outfit & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="relative min-h-screen bg-[#09090b] text-zinc-100 antialiased">
+    <!-- Ambient Minimalist Background Grid & Grain -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+      <!-- Subtle Center Ambient Glow (Neutral Warm) -->
+      <div class="absolute -top-48 left-1/2 -translate-x-1/2 h-[600px] w-[800px] rounded-full bg-zinc-800/10 blur-[160px]"></div>
+      
+      <!-- Precision Tech Grid Pattern -->
+      <div
+        class="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_65%_50%_at_50%_0%,#000_70%,transparent_100%)]"
+      ></div>
+    </div>
+
+    <!-- Mouse ambient spotlight tracker -->
+    <div id="ambient-spotlight" class="pointer-events-none fixed inset-0 z-10 transition-opacity duration-500 opacity-0"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="relative z-20 flex min-h-screen flex-col justify-between">
+      <slot />
+    </div>
+
+    <script>
+      // Global mouse tracking for card spotlight (Emil Kowalski pattern)
+      const handleMouseMove = (e: MouseEvent) => {
+        const cards = document.querySelectorAll<HTMLElement>('.spotlight-card');
+        cards.forEach((card) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty('--mouse-x', `${x}px`);
+          card.style.setProperty('--mouse-y', `${y}px`);
+        });
+
+        // Ambient tracker
+        const spotlight = document.getElementById('ambient-spotlight');
+        if (spotlight) {
+          spotlight.style.opacity = '1';
+          spotlight.style.background = `radial-gradient(700px circle at ${e.clientX}px ${e.clientY}px, rgba(255, 255, 255, 0.025), transparent 45%)`;
+        }
+      };
+
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    </script>
+  </body>
+</html>

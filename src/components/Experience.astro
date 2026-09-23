@@ -1,0 +1,141 @@
+---
+const experiences = [
+  {
+    role: 'Frontend Developer',
+    company: 'EasyTech',
+    period: '2025 — 2026',
+    scope: 'Plataformas Corporativas & Dashboards',
+    description:
+      'Lideré y colaboré en la arquitectura frontend de aplicaciones empresariales y paneles de administración de alto rendimiento, optimizando la experiencia de usuario y la escalabilidad del código.',
+    challenges: [
+      {
+        title: 'Optimización de Renderizado y Carga de Datos',
+        detail: 'Diseño e integración de consumo eficiente de APIs REST y caché de cliente, reduciendo tiempos de respuesta y renderizado en pantallas complejas.',
+      },
+      {
+        title: 'Sistema de Componentes Reutilizable en TypeScript',
+        detail: 'Construcción de módulos y vistas guiadas por componentes tipados estrictamente, reduciendo errores en tiempo de ejecución y acelerando nuevos features.',
+      },
+      {
+        title: 'Arquitectura de Estado y Experiencia de Usuario',
+        detail: 'Implementación de estados globales predecibles con Zustand y patrones de diseño responsivo de alta fidelidad para analíticas en tiempo real.',
+      },
+    ],
+    stack: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'REST APIs', 'Zustand'],
+  },
+  {
+    role: 'Frontend Engineer & Consultant',
+    company: 'Proyectos Independientes',
+    period: '2024 — Presente',
+    scope: 'Startups & Productos a Medida',
+    description:
+      'Desarrollo integral de interfaces web interactivas, landing pages de alta conversión y soluciones digitales personalizadas para clientes directos y equipos emergentes.',
+    challenges: [
+      {
+        title: 'Despliegue Full-Stack Modular con Next.js y Astro',
+        detail: 'Arquitectura completa desde maquetación visual hasta despliegue continuo en producción, garantizando Core Web Vitals en el percentil 99.',
+      },
+      {
+        title: 'Integración de Herramientas Aceleradas por IA',
+        detail: 'Adopción de APIs de Inteligencia Artificial Generativa y agentes en flujos de trabajo interactivos para potenciar la experiencia final del usuario.',
+      },
+      {
+        title: 'Accesibilidad y Estándares WCAG AA',
+        detail: 'Auditoría rigurosa de contrastes de color, navegación por teclado y diseño táctil responsivo sin degradación en dispositivos móviles.',
+      },
+    ],
+    stack: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Astro', 'Prisma', 'AI Tooling'],
+  },
+];
+---
+
+<section id="experience" class="stage-layer py-28 px-4 md:px-8 relative overflow-x-clip">
+  <!-- Parallax Stage Watermark -->
+  <span class="stage-watermark top-0 right-4 select-none" aria-hidden="true">02</span>
+
+  <div class="max-w-4xl mx-auto w-full z-10 relative">
+    
+    <!-- Kinetic Section Divider Rule -->
+    <div class="section-divider mb-12"></div>
+
+    <!-- Section Header with Masked Reveal -->
+    <div class="mb-14">
+      <span class="font-mono text-xs text-amber-400/90 tracking-wider uppercase block mb-2">
+        02 &bull; Trayectoria
+      </span>
+      <h2 class="text-2xl sm:text-4xl font-semibold tracking-[-0.025em] text-white mb-3">
+        <span class="mask-reveal">
+          <span class="mask-reveal-inner">Experiencia & Liderazgo Técnico</span>
+        </span>
+      </h2>
+      <p class="text-zinc-400 text-sm sm:text-base max-w-xl leading-relaxed">
+        Registro editorial de roles de ingeniería, retos técnicos superados e impacto tangible en sistemas de producción.
+      </p>
+    </div>
+
+    <!-- Career Ledger Rows -->
+    <div class="space-y-5">
+      {
+        experiences.map((exp, idx) => (
+          <div class="experience-card craft-card spotlight-card p-6 sm:p-8 rounded-2xl">
+            <!-- Header Row -->
+            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-4 hairline-b pb-4">
+              <div>
+                <div class="flex flex-wrap items-center gap-2.5">
+                  <h3 class="text-lg sm:text-xl font-semibold text-white tracking-tight">
+                    {exp.role}
+                  </h3>
+                  <span class="text-zinc-500 font-mono text-xs">@</span>
+                  <span class="text-sm sm:text-base font-medium text-zinc-200">
+                    {exp.company}
+                  </span>
+                </div>
+                <span class="text-xs font-mono text-zinc-500 mt-1 block">
+                  {exp.scope}
+                </span>
+              </div>
+
+              <span class="font-mono text-xs text-zinc-400 bg-zinc-900 border border-white/[0.08] px-3 py-1 rounded-full w-fit">
+                {exp.period}
+              </span>
+            </div>
+
+            <!-- Overview -->
+            <p class="text-zinc-300 text-sm leading-relaxed mb-6">
+              {exp.description}
+            </p>
+
+            <!-- Engineering Challenges Solved (Deep Technical Detail) -->
+            <div class="mb-6 space-y-3">
+              <span class="text-[11px] font-mono text-zinc-500 uppercase tracking-wider block">
+                Retos Técnicos & Soluciones de Ingeniería
+              </span>
+              <div class="grid grid-cols-1 gap-2.5">
+                {exp.challenges.map((c) => (
+                  <div class="p-3.5 rounded-xl bg-zinc-950/60 border border-white/[0.05] text-xs">
+                    <span class="font-medium text-zinc-200 block mb-1 font-mono">
+                      &rarr; {c.title}
+                    </span>
+                    <span class="text-zinc-400 leading-relaxed block">
+                      {c.detail}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <!-- Stack Pills in Monospace -->
+            <div class="flex flex-wrap gap-1.5 pt-2">
+              {exp.stack.map((item) => (
+                <span class="px-2.5 py-1 rounded bg-zinc-900 border border-white/[0.06] text-[11px] font-mono text-zinc-300">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+  </div>
+</section>

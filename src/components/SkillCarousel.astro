@@ -1,0 +1,239 @@
+---
+// SkillCarousel.astro
+// Two infinite horizontal carousels — row1 moves left, row2 moves right.
+// GSAP controls the loop; scroll velocity nudges the speed.
+// No external libraries beyond GSAP (already in project).
+
+interface Skill {
+  name: string;
+  tag: string;
+  mono?: boolean; // use mono font for tech abbreviations
+}
+
+const row1: Skill[] = [
+  { name: 'React 19',          tag: 'UI Core',       mono: false },
+  { name: 'Next.js',           tag: 'App Router',    mono: false },
+  { name: 'TypeScript',        tag: 'Strict Mode',   mono: true  },
+  { name: 'Tailwind CSS v4',   tag: 'Design System', mono: false },
+  { name: 'GSAP 3',            tag: 'Motion Engine', mono: false },
+  { name: 'Astro',             tag: 'Content Layer', mono: false },
+  { name: 'Prisma ORM',        tag: 'DB Contracts',  mono: true  },
+  { name: 'REST & GraphQL',    tag: 'API Layer',     mono: true  },
+];
+
+const row2: Skill[] = [
+  { name: 'ScrollTrigger',     tag: 'Scroll Anim',   mono: true  },
+  { name: 'Zustand',           tag: 'State Mgmt',    mono: false },
+  { name: 'Zod',               tag: 'Validation',    mono: true  },
+  { name: 'OpenAI API',        tag: 'LLM Layer',     mono: false },
+  { name: 'Git / GitHub',      tag: 'VCS & CI/CD',   mono: false },
+  { name: 'Vite',              tag: 'Build Tool',    mono: false },
+  { name: 'Docker',            tag: 'Containers',    mono: false },
+  { name: 'Figma',             tag: 'UI Design',     mono: false },
+];
+---
+
+<!-- Skill Carousel Band -->
+<div class="carousel-band py-10 overflow-hidden select-none" aria-hidden="true">
+
+  <!-- Row 1: moves → left -->
+  <div class="carousel-track-wrapper mb-4 relative">
+    <!-- fade edges -->
+    <div class="carousel-fade-left  pointer-events-none"></div>
+    <div class="carousel-fade-right pointer-events-none"></div>
+
+    <div class="carousel-track" id="carousel-row1">
+      <!-- Duplicated twice so the infinite loop never shows a gap -->
+      {[...row1, ...row1, ...row1].map((skill) => (
+        <div class="carousel-pill">
+          <span class={`carousel-pill-name ${skill.mono ? 'font-mono' : ''}`}>
+            {skill.name}
+          </span>
+          <span class="carousel-pill-tag">{skill.tag}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Row 2: moves → right -->
+  <div class="carousel-track-wrapper relative">
+    <div class="carousel-fade-left  pointer-events-none"></div>
+    <div class="carousel-fade-right pointer-events-none"></div>
+
+    <div class="carousel-track" id="carousel-row2">
+      {[...row2, ...row2, ...row2].map((skill) => (
+        <div class="carousel-pill">
+          <span class={`carousel-pill-name ${skill.mono ? 'font-mono' : ''}`}>
+            {skill.name}
+          </span>
+          <span class="carousel-pill-tag">{skill.tag}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ── Track wrapper ─────────────────────────────────────────────────────── */
+  .carousel-track-wrapper {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* ── The scrolling strip ───────────────────────────────────────────────── */
+  .carousel-track {
+    display: flex;
+    width: max-content;
+    gap: 0.75rem;
+    will-change: transform;
+  }
+
+  /* ── Individual pill ───────────────────────────────────────────────────── */
+  .carousel-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    background: rgba(24, 24, 27, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+    white-space: nowrap;
+    flex-shrink: 0;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .carousel-pill:hover {
+    border-color: rgba(255, 255, 255, 0.18);
+    background: rgba(39, 39, 42, 0.9);
+  }
+
+  .carousel-pill-name {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #e4e4e7; /* zinc-200 */
+    letter-spacing: -0.01em;
+  }
+
+  .carousel-pill-tag {
+    font-size: 0.6875rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: #52525b; /* zinc-600 */
+    padding: 0.125rem 0.5rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  /* ── Edge fade masks ───────────────────────────────────────────────────── */
+  .carousel-fade-left,
+  .carousel-fade-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 6rem;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .carousel-fade-left {
+    left: 0;
+    background: linear-gradient(to right, #09090b, transparent);
+  }
+
+  .carousel-fade-right {
+    right: 0;
+    background: linear-gradient(to left, #09090b, transparent);
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const initCarousels = () => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const row1El = document.getElementById('carousel-row1');
+    const row2El = document.getElementById('carousel-row2');
+
+    if (!row1El || !row2El) return;
+
+    // Stop carousels for reduced-motion users
+    if (prefersReducedMotion) return;
+
+    // ── Helper: measure single-item-set width ──────────────────────────────
+    // Each row has 3 copies: we animate by 1/3 of total width then loop.
+    const getSetWidth = (el: HTMLElement) => el.scrollWidth / 3;
+
+    const w1 = getSetWidth(row1El);
+    const w2 = getSetWidth(row2El);
+
+    // ── Base speed (pixels per second) ────────────────────────────────────
+    const BASE_SPEED = 42; // comfortable reading speed
+
+    // Row 1: animate x from 0 → -w1, then instantly jump back to 0
+    const tween1 = gsap.to(row1El, {
+      x: -w1,
+      duration: w1 / BASE_SPEED,
+      ease: 'none',
+      repeat: -1,
+      modifiers: {
+        x: (x) => `${parseFloat(x) % w1}px`,
+      },
+    });
+
+    // Row 2: reverse direction (start at -w2, animate toward 0)
+    gsap.set(row2El, { x: -w2 });
+    const tween2 = gsap.to(row2El, {
+      x: 0,
+      duration: w2 / BASE_SPEED,
+      ease: 'none',
+      repeat: -1,
+      modifiers: {
+        x: (x) => `${((parseFloat(x) % w2) + w2) % w2 - w2}px`,
+      },
+    });
+
+    // ── Scroll velocity interaction ────────────────────────────────────────
+    // When the user scrolls faster, carousels speed up slightly
+    let velocity = 0;
+    let lastScroll = window.scrollY;
+
+    const updateVelocity = () => {
+      const current = window.scrollY;
+      velocity = current - lastScroll;
+      lastScroll = current;
+
+      const speedMult = 1 + Math.abs(velocity) * 0.028;
+      tween1.timeScale(speedMult);
+      tween2.timeScale(speedMult);
+    };
+
+    // Decay speed back to 1x when scroll stops
+    const decaySpeed = gsap.to({}, {
+      duration: 0.8,
+      ease: 'power2.out',
+      onUpdate() {
+        const progress = 1 - decaySpeed.progress();
+        tween1.timeScale(1 + (Math.abs(velocity) * 0.028) * progress);
+        tween2.timeScale(1 + (Math.abs(velocity) * 0.028) * progress);
+      },
+      paused: true,
+    });
+
+    window.addEventListener('scroll', () => {
+      updateVelocity();
+      decaySpeed.restart();
+    }, { passive: true });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCarousels);
+  } else {
+    initCarousels();
+  }
+</script>

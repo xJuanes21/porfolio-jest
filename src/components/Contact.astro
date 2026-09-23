@@ -1,0 +1,163 @@
+---
+const email = "juane.salazar.toro@gmail.com";
+---
+
+<section id="contact" class="stage-layer py-28 px-4 md:px-8 relative overflow-hidden">
+  <!-- Parallax Stage Watermark -->
+  <span class="stage-watermark top-0 -left-6 select-none" aria-hidden="true">05</span>
+
+  <div class="max-w-4xl mx-auto w-full z-10 relative">
+    
+    <!-- Kinetic Section Divider Rule -->
+    <div class="section-divider mb-12"></div>
+
+    <!-- Section Header with Masked Reveal -->
+    <div class="mb-14">
+      <span class="font-mono text-xs text-amber-400/90 tracking-wider uppercase block mb-2">
+        05 &bull; Contacto
+      </span>
+      <h2 class="text-2xl sm:text-4xl font-semibold tracking-[-0.025em] text-white mb-3">
+        <span class="mask-reveal">
+          <span class="mask-reveal-inner">Consola de Comunicación Directa</span>
+        </span>
+      </h2>
+      <p class="text-zinc-400 text-sm sm:text-base max-w-xl leading-relaxed">
+        Disponible para integraciones en equipos de ingeniería frontend, productos desde cero o consultoría de rendimiento.
+      </p>
+    </div>
+
+    <!-- Interactive Communication Console Card -->
+    <div class="contact-card craft-card spotlight-card p-6 sm:p-10 rounded-3xl inner-bevel">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+        
+        <!-- Left Column: Primary Messaging & Action (Span 7) -->
+        <div class="md:col-span-7 space-y-6">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/40 border border-emerald-500/20 text-emerald-400 text-xs font-mono mb-4">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span>Disponibilidad Activa</span>
+            </div>
+
+            <h3 class="text-xl sm:text-2xl font-semibold text-white tracking-tight leading-snug">
+              ¿Tienes en mente un proyecto o una oportunidad en tu equipo?
+            </h3>
+            <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed mt-2">
+              Respondo activamente a consultas técnicas, propuestas de desarrollo y oportunidades de ingeniería frontend.
+            </p>
+          </div>
+
+          <!-- Tactile Actions -->
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <button
+              id="copy-email-btn"
+              data-email={email}
+              class="tactile-btn inline-flex items-center justify-center gap-2.5 px-5 py-2.5 rounded-full bg-zinc-100 text-zinc-950 font-medium text-xs sm:text-sm hover:bg-white shadow-lg cursor-pointer"
+            >
+              <svg class="w-4 h-4 text-zinc-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+              <span id="btn-text">Copiar Email ({email})</span>
+            </button>
+
+            <a
+              href={`mailto:${email}`}
+              class="tactile-btn inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full border border-white/10 bg-zinc-900/60 text-zinc-300 hover:text-white text-xs sm:text-sm font-medium transition-colors"
+            >
+              <span>Mail Directo &rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Column: Telemetry & Live Clock (Span 5) -->
+        <div class="md:col-span-5 space-y-3 p-5 rounded-2xl bg-zinc-950/70 border border-white/[0.06] text-xs font-mono">
+          <!-- Live Clock -->
+          <div class="space-y-1 hairline-b pb-3">
+            <span class="text-[10px] text-zinc-500 uppercase tracking-wider block">Hora Local (Cali, CO)</span>
+            <div class="text-base text-zinc-100 font-semibold flex items-center justify-between">
+              <span id="live-clock">--:--:--</span>
+              <span class="text-[11px] text-amber-400/90 font-normal">UTC-5</span>
+            </div>
+          </div>
+
+          <!-- Channel Info -->
+          <div class="space-y-2 pt-1 text-zinc-400">
+            <div class="flex justify-between items-center">
+              <span>Tiempo de Respuesta:</span>
+              <span class="text-zinc-200 font-medium">&lt; 24 Horas</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span>Modalidad:</span>
+              <span class="text-zinc-200 font-medium">Remoto / Híbrido</span>
+            </div>
+          </div>
+
+          <!-- Social Shortcuts -->
+          <div class="pt-3 hairline-t flex items-center justify-between text-zinc-400">
+            <a
+              href="https://github.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-white transition-colors"
+            >
+              GitHub &rarr;
+            </a>
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-white transition-colors"
+            >
+              LinkedIn &rarr;
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  // Dynamic Email Copy feedback
+  const copyBtn = document.getElementById('copy-email-btn');
+  const btnText = document.getElementById('btn-text');
+
+  if (copyBtn && btnText) {
+    copyBtn.addEventListener('click', async () => {
+      const email = copyBtn.getAttribute('data-email') || '';
+      try {
+        await navigator.clipboard.writeText(email);
+        btnText.textContent = '✓ ¡Copiado al portapapeles!';
+        copyBtn.classList.add('bg-amber-300');
+        setTimeout(() => {
+          btnText.textContent = `Copiar Email (${email})`;
+          copyBtn.classList.remove('bg-amber-300');
+        }, 2200);
+      } catch (err) {
+        window.location.href = `mailto:${email}`;
+      }
+    });
+  }
+
+  // Live Clock Ticker (Cali, Colombia UTC-5)
+  const updateClock = () => {
+    const clockEl = document.getElementById('live-clock');
+    if (!clockEl) return;
+    const now = new Date();
+    const options: Intl.DateTimeFormatOptions = {
+      timeZone: 'America/Bogota',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true,
+    };
+    clockEl.textContent = new Intl.DateTimeFormat('es-CO', options).format(now);
+  };
+
+  updateClock();
+  setInterval(updateClock, 1000);
+</script>

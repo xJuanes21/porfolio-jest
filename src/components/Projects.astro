@@ -1,0 +1,773 @@
+---
+// Projects.astro — Bento Gallery (3 columns · 2 sizes)
+// ════════════════════════════════════════════════════════════════
+// Single source of truth: edit `projects` to add/remove entries.
+// `large` = featured card spanning 2 columns; `small` = standard (1 col).
+// Order dictates the grid rhythm: L, S, S, L, L, S fills the 3×3 grid.
+// ════════════════════════════════════════════════════════════════
+
+type ProjectSize = 'large' | 'small';
+type AccentColor = 'amber' | 'emerald' | 'blue' | 'violet' | 'rose';
+
+interface Project {
+  id:          number;
+  title:       string;
+  description: string;
+  category:    string;
+  year:        string;
+  stack:       string[];
+  link:        string;
+  github:      string;
+  size:        ProjectSize;
+  accent:      AccentColor;
+  badge?:      string;        // e.g. "Proyecto Insignia 01"
+  metrics?:    { label: string; value: string }[];
+  visual:      'dashboard' | 'stream' | 'metrics' | 'checkout' | 'docs' | 'presence';
+  file:        string;        // faux filename shown in the console chrome
+  live?:       string;        // status word for featured consoles
+}
+
+// ── DATA ─────────────────────────────────────────────────────────
+const projects: Project[] = [
+  {
+    id: 1,
+    title:       'EasyTech Analytics & Resource Console',
+    description: 'Consola corporativa de analíticas en tiempo real para administración de recursos de alto volumen. Renderizado híbrido SSR, filtros dinámicos persistentes y arquitectura modular.',
+    category:    'Enterprise Dashboard',
+    year:        '2026',
+    stack:       ['Next.js', 'TypeScript', 'Tailwind CSS', 'REST API', 'Prisma'],
+    link:        '#',
+    github:      'https://github.com',
+    size:        'large',
+    accent:      'emerald',
+    badge:       'Proyecto Insignia 01',
+    metrics: [
+      { label: 'TTFB Reduction', value: '−45%' },
+      { label: 'Lighthouse',     value: '98 / 100' },
+    ],
+    visual: 'dashboard',
+    file:   'easytech.console.tsx',
+    live:   'LIVE',
+  },
+  {
+    id: 2,
+    title:       'Fintech Payment & Checkout',
+    description: 'Flujo de checkout optimizado para conversión con validación reactiva y procesamiento Stripe.',
+    category:    'Fintech / Payments',
+    year:        '2025',
+    stack:       ['React', 'TypeScript', 'Stripe UI', 'REST APIs'],
+    link:        '#',
+    github:      'https://github.com',
+    size:        'small',
+    accent:      'violet',
+    visual: 'checkout',
+    file:   'checkout.flow.ts',
+  },
+  {
+    id: 3,
+    title:       'Developer Platform & Interactive Docs',
+    description: 'Portal de documentación técnica con búsqueda instantánea y visor de código interactivo.',
+    category:    'Documentation / OS',
+    year:        '2024',
+    stack:       ['Astro', 'TypeScript', 'GSAP'],
+    link:        '#',
+    github:      'https://github.com',
+    size:        'small',
+    accent:      'rose',
+    visual: 'docs',
+    file:   'docs.search.ts',
+  },
+  {
+    id: 4,
+    title:       'AI Studio & Prompt Engineering Suite',
+    description: 'Plataforma para experimentación y streaming en tiempo real de modelos de lenguaje con micro-interacciones táctiles y markdown dinámico.',
+    category:    'GenAI / Frontend',
+    year:        '2025',
+    stack:       ['React', 'TypeScript', 'OpenAI API', 'Tailwind CSS', 'Vite'],
+    link:        '#',
+    github:      'https://github.com',
+    size:        'large',
+    accent:      'amber',
+    badge:       'Proyecto Insignia 02',
+    metrics: [
+      { label: 'Streaming Speed', value: '412 tok/s' },
+      { label: 'Time to First Token', value: '< 80 ms' },
+    ],
+    visual: 'stream',
+    file:   'ai-studio.stream.ts',
+    live:   'STREAM',
+  },
+  {
+    id: 5,
+    title:       'SaaS Analytics & Cloud Metrics',
+    description: 'Plataforma de métricas corporativas con filtros dinámicos en tiempo real y exportación de reportes tabulares.',
+    category:    'Analytics / Metrics',
+    year:        '2025',
+    stack:       ['Next.js 14', 'TypeScript', 'Chart.js', 'Tailwind'],
+    link:        '#',
+    github:      'https://github.com',
+    size:        'large',
+    accent:      'blue',
+    visual: 'metrics',
+    file:   'saas.metrics.tsx',
+    live:   'SYNC',
+  },
+  {
+    id: 6,
+    title:       'Real-Time Team Workspace',
+    description: 'Espacio colaborativo para equipos con tableros interactivos y presencia en tiempo real.',
+    category:    'Productivity / Web App',
+    year:        '2024',
+    stack:       ['Next.js', 'Prisma', 'WebSockets', 'Tailwind'],
+    link:        '#',
+    github:      'https://github.com',
+    size:        'small',
+    accent:      'emerald',
+    visual: 'presence',
+    file:   'presence.live.ts',
+  },
+];
+
+// ── Accent → color tokens (CSS variables) ─────────────────────────
+const accentTokens: Record<AccentColor, string> = {
+  amber:   'accent-amber',
+  emerald: 'accent-emerald',
+  blue:    'accent-blue',
+  violet:  'accent-violet',
+  rose:    'accent-rose',
+};
+
+// ── Mini motif for standard cards (decorative geometry) ───────────
+const renderMotif = (visual: string): string => {
+  switch (visual) {
+    case 'checkout':
+      return `<span class="steps"><i></i><i></i><i></i></span>`;
+    case 'docs':
+      return `<span class="code-tag">&lt;/&gt;</span>`;
+    case 'presence':
+      return `<span class="avatars"><i></i><i></i><i></i></span>`;
+    default:
+      return '';
+  }
+};
+
+// ── Featured console bodies ────────────────────────────────────────
+const renderVisual = (visual: string): string => {
+  switch (visual) {
+    case 'dashboard':
+      return `
+        <svg class="chart" viewBox="0 0 300 92" preserveAspectRatio="none">
+          <line class="chart__base" x1="0" y1="86" x2="300" y2="86" />
+          <g class="bars">
+            <rect x="14"  y="58" width="14" height="28" rx="3" />
+            <rect x="46"  y="44" width="14" height="42" rx="3" />
+            <rect x="78"  y="63" width="14" height="23" rx="3" />
+            <rect x="110" y="35" width="14" height="51" rx="3" />
+            <rect x="142" y="50" width="14" height="36" rx="3" class="lit" />
+            <rect x="174" y="24" width="14" height="62" rx="3" />
+            <rect x="206" y="41" width="14" height="45" rx="3" class="lit" />
+            <rect x="238" y="16" width="14" height="70" rx="3" />
+            <rect x="270" y="30" width="14" height="56" rx="3" />
+          </g>
+          <polyline class="trend" points="21,52 53,38 85,58 117,28 149,44 181,18 213,36 245,10 277,24" />
+        </svg>
+        <div class="readouts">
+          <div><b>−45%</b><span>TTFB Reduction</span></div>
+          <div><b>98/100</b><span>Lighthouse</span></div>
+        </div>`;
+    case 'stream':
+      return `
+        <div class="stream">
+          <p><span class="prompt">$</span> astra <span class="dim">--attach</span> model</p>
+          <p class="ok">&gt; conectado a <b>llama-3.3-70b</b></p>
+          <p class="ok">&gt; segmento abierto <span class="dim">markdown.handler</span></p>
+          <div class="sig">
+            <div><b>412</b><span>tok/s</span></div>
+            <div><b>&lt; 80 ms</b><span>first token</span></div>
+          </div>
+          <span class="cursor">▌</span>
+        </div>`;
+    case 'metrics':
+      return `
+        <svg class="chart chart--area" viewBox="0 0 300 92" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" />
+              <stop offset="100%" />
+            </linearGradient>
+          </defs>
+          <line class="chart__base" x1="0" y1="86" x2="300" y2="86" />
+          <path class="area-fill" d="M0 70 L38 62 L70 66 L108 42 L146 50 L182 30 L222 40 L260 20 L300 30 L300 86 L0 86 Z" />
+          <polyline class="area-line" points="0 70 38 62 70 66 108 42 146 50 182 30 222 40 260 20 300 30" />
+        </svg>
+        <div class="kpis">
+          <span><i></i>Disponibilidad</span>
+          <span><i></i>Latencia</span>
+          <span><i></i>Throughput</span>
+        </div>`;
+    default:
+      return '';
+  }
+};
+---
+
+<section id="projects" class="stage-layer py-28 px-4 md:px-8 relative overflow-x-clip">
+  <!-- Parallax Stage Watermark -->
+  <span class="stage-watermark top-0 -left-6 select-none" aria-hidden="true">03</span>
+
+  <div class="max-w-6xl mx-auto w-full z-10 relative">
+
+    <!-- Kinetic Section Divider -->
+    <div class="section-divider mb-12"></div>
+
+    <!-- Section Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      <div>
+        <span class="font-mono text-xs text-amber-400/90 tracking-wider uppercase block mb-2">
+          03 &bull; Trabajo Seleccionado
+        </span>
+        <h2 class="text-2xl sm:text-4xl font-semibold tracking-[-0.025em] text-white">
+          <span class="mask-reveal">
+            <span class="mask-reveal-inner">Proyectos &amp; Arquitectura</span>
+          </span>
+        </h2>
+      </div>
+      <p class="text-zinc-400 text-sm max-w-sm leading-relaxed">
+        Sistemas en producción construidos con atención meticulosa a la performance y el diseño de interfaz.
+      </p>
+    </div>
+
+    <!-- ══ BENTO GRID ═══════════════════════════════════════════════════ -->
+    <div class="bento-grid" id="bento-grid">
+      {projects.map((project) => {
+        const accent = accentTokens[project.accent];
+        const featured = project.size === 'large';
+
+        return (
+          <article
+            class={`bento-card craft-card ${accent} ${featured ? 'bento-card--large' : 'bento-card--small'}`}
+            data-bento-card
+          >
+
+            {!featured && (
+              <div class="mini-console" aria-hidden="true">
+                <span class="mini-console__dot"></span>
+                <span class="mini-console__file">{project.file}</span>
+                <span class="mini-console__motif" set:html={renderMotif(project.visual)}></span>
+              </div>
+            )}
+
+            <div class="bento-card__body">
+              <!-- Meta row -->
+              <div class="bento-card__meta">
+                <div class="flex items-center gap-2">
+                  <span class="meta-dot" aria-hidden="true"></span>
+                  <span class="text-xs font-mono text-zinc-400">{project.category}</span>
+                </div>
+                {project.badge
+                  ? <span class="featured-tag">{project.badge}</span>
+                  : <span class="text-xs font-mono text-zinc-500">{project.year}</span>}
+              </div>
+
+              <h3 class={featured ? 'featured-title' : 'standard-title'}>{project.title}</h3>
+              <p class={featured ? 'featured-desc' : 'standard-desc'}>{project.description}</p>
+
+              <!-- Metrics (featured only) -->
+              {featured && project.metrics && (
+                <div class="featured-stats">
+                  {project.metrics.map((m) => (
+                    <div class="featured-stat">
+                      <span class="featured-stat__value">{m.value}</span>
+                      <span class="featured-stat__label">{m.label}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <!-- Stack, single quiet line -->
+              <p class={featured ? 'stack-line' : 'stack-line stack-line--small'}>
+                {featured ? project.stack.join('  ·  ') : project.stack.slice(0, 3).join('  ·  ')}
+              </p>
+
+              <!-- Actions -->
+              <div class="bento-card__actions">
+                <a href={project.link} class="bento-action bento-action--primary" aria-label={`Ver demo de ${project.title}`}>
+                  <span>Ver demo</span>
+                  <svg class="action-arrow" fill="none" viewBox="0 0 16 16" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M6 3l5 5-5 5" />
+                  </svg>
+                </a>
+                <a href={project.github} target="_blank" rel="noopener noreferrer" class="bento-action bento-action--ghost" aria-label={`Ver código de ${project.title}`}>
+                  <svg class="action-icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            {featured && (
+              <div class="featured-visual" aria-hidden="true">
+                <div class="console">
+                  <div class="console__bar">
+                    <span class="console__dot"></span>
+                    <span class="console__dot"></span>
+                    <span class="console__dot"></span>
+                    <span class="console__file">{project.file}</span>
+                    <span class="console__live">
+                      <span class="console__pulse"></span>{project.live}
+                    </span>
+                  </div>
+                  <div class="console__body" set:html={renderVisual(project.visual)}></div>
+                </div>
+              </div>
+            )}
+
+          </article>
+        );
+      })}
+    </div>
+    <!-- ══ END BENTO GRID ══════════════════════════════════════════════ -->
+
+  </div>
+</section>
+
+<style>
+  /* ── Accent token system ─────────────────────────────────────────────────── */
+  .accent-amber   { --acc: #fbbf24; --acc-weak: rgba(251, 191, 36, .16); --acc-line: rgba(251, 191, 36, .45); }
+  .accent-emerald { --acc: #34d399; --acc-weak: rgba(52, 211, 153, .16); --acc-line: rgba(52, 211, 153, .45); }
+  .accent-blue    { --acc: #60a5fa; --acc-weak: rgba(96, 165, 250, .16); --acc-line: rgba(96, 165, 250, .45); }
+  .accent-violet  { --acc: #a78bfa; --acc-weak: rgba(167, 139, 250, .16); --acc-line: rgba(167, 139, 250, .45); }
+  .accent-rose    { --acc: #fb7185; --acc-weak: rgba(251, 113, 133, .16); --acc-line: rgba(251, 113, 133, .45); }
+
+  /* ── Grid: 1 column below lg, 3 columns above ────────────────────────────── */
+  .bento-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    .bento-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .bento-card--large { grid-column: span 2; }
+  }
+
+  /* ── Card base ───────────────────────────────────────────────────────────── */
+  .bento-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    padding: 1.5rem;
+    will-change: transform, opacity;
+  }
+
+  .bento-card__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .bento-card--large {
+    gap: 1.5rem;
+    padding: 1.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .bento-card--large {
+      flex-direction: row;
+      align-items: stretch;
+      gap: 2rem;
+      padding: 2rem;
+    }
+  }
+
+  .meta-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--acc);
+  }
+
+  .bento-card__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.9rem;
+  }
+
+  .featured-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--acc);
+    opacity: 0.9;
+  }
+
+  /* ── Typography ──────────────────────────────────────────────────────────── */
+  .featured-title {
+    font-size: 1.375rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: #fafafa;
+    margin-bottom: 0.6rem;
+  }
+
+  @media (min-width: 640px) {
+    .featured-title { font-size: 1.625rem; }
+  }
+
+  .featured-desc {
+    font-size: 0.875rem;
+    color: #a1a1aa;
+    line-height: 1.65;
+    max-width: 48ch;
+    margin-bottom: 1.25rem;
+  }
+
+  .standard-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.3;
+    color: #fafafa;
+    margin-bottom: 0.5rem;
+  }
+
+  .standard-desc {
+    font-size: 0.8125rem;
+    color: #a1a1aa;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+
+  /* ── Featured stats ──────────────────────────────────────────────────────── */
+  .featured-stats {
+    display: flex;
+    gap: 2rem;
+    padding-top: 1rem;
+    margin-bottom: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .featured-stat { display: flex; flex-direction: column; gap: 0.15rem; }
+
+  .featured-stat__value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--acc);
+  }
+
+  .featured-stat__label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6875rem;
+    color: #a1a1aa;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ── Stack line ──────────────────────────────────────────────────────────── */
+  .stack-line {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: #a1a1aa;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: auto;
+  }
+
+  .stack-line--small {
+    margin-top: auto;
+    margin-bottom: 1.1rem;
+  }
+
+  /* ── Actions ─────────────────────────────────────────────────────────────── */
+  .bento-card__actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  .bento-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.18s ease;
+  }
+
+  .bento-action--primary { color: #e4e4e7; }
+  .bento-action--primary:hover { color: #ffffff; }
+
+  .bento-action--primary .action-arrow {
+    width: 14px; height: 14px;
+    color: var(--acc);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .bento-action--primary:hover .action-arrow { transform: translateX(3px); }
+
+  .bento-action--ghost { color: #71717a; }
+  .bento-action--ghost:hover { color: #e4e4e7; }
+  .bento-action--ghost .action-icon { width: 14px; height: 14px; }
+
+  /* ── Mini console (standard cards) ───────────────────────────────────────── */
+  .mini-console {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.5rem 0.65rem;
+    margin-bottom: 1.1rem;
+    border-radius: 0.6rem;
+    background: rgba(255, 255, 255, 0.03);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .mini-console__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--acc);
+  }
+
+  .mini-console__file {
+    font-size: 0.6875rem;
+    color: #a1a1aa;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mini-console__motif {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .steps { display: inline-flex; gap: 4px; }
+  .steps i {
+    width: 6px; height: 6px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.14);
+  }
+  .steps i:last-child { background: var(--acc); }
+
+  .code-tag { font-size: 0.6875rem; color: #a1a1aa; letter-spacing: 0.05em; }
+
+  .avatars { display: inline-flex; gap: 3px; }
+  .avatars i {
+    width: 7px; height: 7px;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+  }
+  .avatars i:nth-child(2) { border-color: var(--acc); }
+
+  /* ── Featured visual console ─────────────────────────────────────────────── */
+  .featured-visual {
+    width: 100%;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .featured-visual {
+      width: clamp(240px, 42%, 340px);
+      display: flex;
+    }
+  }
+
+  .console {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 240px;
+    border-radius: 0.9rem;
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .console__bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .console__dot {
+    width: 7px; height: 7px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  .console__file {
+    margin-left: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6875rem;
+    color: #a1a1aa;
+  }
+
+  .console__live {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    color: var(--acc);
+  }
+
+  .console__pulse {
+    width: 5px;
+    height: 5px;
+    border-radius: 9999px;
+    background: var(--acc);
+  }
+
+  .console__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1rem 1.1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6875rem;
+    line-height: 1.5;
+    color: #a1a1aa;
+  }
+
+  .console__body .prompt { color: var(--acc); }
+  .console__body .dim    { color: #8f8f98; }
+  .console__body .ok     { color: #d4d4d8; }
+  .console__body .ok > b,
+  .console__body .sig b  { color: var(--acc); font-weight: 600; }
+
+  /* ── Charts ──────────────────────────────────────────────────────────────── */
+  .chart {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .chart__base { stroke: rgba(255, 255, 255, 0.1); }
+
+  .chart .bars rect { fill: var(--acc-weak); }
+  .chart .bars rect.lit { fill: var(--acc); }
+
+  .chart .trend {
+    fill: none;
+    stroke: var(--acc);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.9;
+  }
+
+  /* Area gradient driven by the card's accent */
+  .chart--area stop:first-child { stop-color: var(--acc); stop-opacity: 0.28; }
+  .chart--area stop:last-child  { stop-color: var(--acc); stop-opacity: 0.02; }
+
+  .chart .area-fill { fill: url(#areaGrad); }
+  .chart .area-line {
+    fill: none;
+    stroke: var(--acc);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .readouts {
+    display: flex;
+    gap: 1.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .readouts div { display: flex; flex-direction: column; gap: 0.1rem; }
+  .readouts b {
+    font-size: 0.875rem;
+    color: var(--acc);
+    font-weight: 600;
+    line-height: 1;
+  }
+  .readouts span {
+    font-size: 0.6875rem;
+    color: #a1a1aa;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .stream { display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+  .stream p { margin: 0; }
+
+  .sig {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .sig div { display: flex; flex-direction: column; gap: 0.1rem; }
+  .sig b { font-size: 0.875rem; line-height: 1; }
+  .sig span {
+    font-size: 0.6875rem;
+    color: #a1a1aa;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .cursor {
+    color: var(--acc);
+    margin-top: auto;
+    animation: blink 1.1s steps(2, start) infinite;
+  }
+
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .kpis {
+    display: flex;
+    gap: 1.25rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .kpis span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5625rem;
+    color: #71717a;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .kpis i {
+    width: 5px; height: 5px;
+    border-radius: 9999px;
+    background: var(--acc);
+    opacity: 0.85;
+  }
+</style>

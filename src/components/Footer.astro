@@ -1,0 +1,28 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="relative z-20 border-t border-white/[0.06] py-12 px-4 md:px-8 bg-[#09090b]">
+  <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-zinc-500">
+    <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
+      <span class="text-zinc-300 font-medium font-mono text-[11px]">
+        Juan Esteban Salazar
+      </span>
+      <span class="hidden sm:inline-block text-zinc-700">&bull;</span>
+      <span>Cali, Colombia &bull; UTC-5</span>
+    </div>
+
+    <div class="flex items-center gap-6 font-mono text-[11px]">
+      <span class="text-zinc-400">
+        Astro &bull; Tailwind &bull; GSAP
+      </span>
+      <a
+        href="#hero"
+        class="text-zinc-500 hover:text-zinc-300 transition-colors inline-flex items-center gap-1"
+      >
+        <span>Volver arriba</span>
+        <span aria-hidden="true">&uarr;</span>
+      </a>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,170 @@
+---
+import SkillCarousel from './SkillCarousel.astro';
+
+const architectureLayers = [
+
+  {
+    num: '01',
+    name: 'Core UI & Frameworks',
+    focus: 'Ecosistema de renderizado y componentes reactivos',
+    tools: [
+      { name: 'React 19', role: 'Component Core' },
+      { name: 'Next.js (App Router)', role: 'SSR / SSG / ISR' },
+      { name: 'Astro', role: 'Content & Islands' },
+      { name: 'HTML5 Semántico', role: 'Accesibilidad' },
+    ],
+  },
+  {
+    num: '02',
+    name: 'Tipado Estricto & Modelado de Datos',
+    focus: 'Inmunidad a errores de runtime y contratos seguros',
+    tools: [
+      { name: 'TypeScript', role: 'Strict Mode' },
+      { name: 'REST & GraphQL', role: 'API Contracts' },
+      { name: 'Prisma ORM', role: 'Schema & Database' },
+      { name: 'Zod', role: 'Validation' },
+    ],
+  },
+  {
+    num: '03',
+    name: 'Styling, Cinemática & Micro-Physics',
+    focus: 'Diseño táctil y rendimiento a 60/120 FPS',
+    tools: [
+      { name: 'Tailwind CSS v4', role: 'Design Tokens' },
+      { name: 'GSAP 3 & ScrollTrigger', role: 'Kinetic Motion' },
+      { name: 'Emil Kowalski Craft', role: 'Spring Physics' },
+      { name: 'WCAG AA AA', role: 'Accessibility Standard' },
+    ],
+  },
+  {
+    num: '04',
+    name: 'Ingeniería Asistida por IA & Tooling',
+    focus: 'Productividad aumentada y agentes autónomos',
+    tools: [
+      { name: 'OpenAI / Anthropic APIs', role: 'LLM Integration' },
+      { name: 'Agentic Workflows', role: 'AI Orchestration' },
+      { name: 'Prompt Engineering', role: 'Context Design' },
+      { name: 'Git & GitHub Actions', role: 'CI / CD Pipelines' },
+    ],
+  },
+];
+---
+
+<section id="education" class="stage-layer py-28 px-4 md:px-8 relative overflow-x-clip">
+  <!-- Parallax Stage Watermark -->
+  <span class="stage-watermark top-0 right-2 select-none" aria-hidden="true">04</span>
+
+  <div class="max-w-5xl mx-auto w-full z-10 relative">
+    
+    <!-- Kinetic Section Divider Rule -->
+    <div class="section-divider mb-12"></div>
+
+    <!-- Section Header with Masked Reveal -->
+    <div class="mb-16">
+      <span class="font-mono text-xs text-amber-400/90 tracking-wider uppercase block mb-2">
+        04 &bull; Formación & Capacidades
+      </span>
+      <h2 class="text-2xl sm:text-4xl font-semibold tracking-[-0.025em] text-white mb-3">
+        <span class="mask-reveal">
+          <span class="mask-reveal-inner">Fundamentos de Ingeniería & Matriz de Arquitectura</span>
+        </span>
+      </h2>
+      <p class="text-zinc-400 text-sm sm:text-base max-w-xl leading-relaxed">
+        Bases rigurosas de computación combinadas con el dominio metódico de las capas tecnológicas que componen el software moderno.
+      </p>
+    </div>
+
+    <!-- ══ Skill Carousel Band ═══════════════════════════════════════════ -->
+    <div class="mb-14">
+      <span class="font-mono text-xs text-zinc-500 uppercase tracking-wider block mb-5">
+        Stack Tecnológico
+      </span>
+      <SkillCarousel />
+    </div>
+
+    <!-- 1. Academic Engineering Dossier Panel -->
+
+    <div class="craft-card spotlight-card p-6 sm:p-8 rounded-3xl mb-10 inner-bevel">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 hairline-b pb-5 mb-5">
+        <div>
+          <span class="text-xs font-mono text-amber-400/90 uppercase tracking-wider block mb-1">
+            Grado Académico Universitario
+          </span>
+          <h3 class="text-xl sm:text-2xl font-semibold text-white tracking-tight">
+            Ingeniería de Computación
+          </h3>
+          <p class="text-xs sm:text-sm font-mono text-zinc-400 mt-0.5">
+            Universidad Autónoma de Occidente (UAO) &bull; Cali, Colombia
+          </p>
+        </div>
+
+        <div class="text-left md:text-right">
+          <span class="inline-flex px-3 py-1 rounded-full bg-emerald-950/50 border border-emerald-500/20 text-emerald-400 font-mono text-xs">
+            Graduación: 2026 (En Culminación)
+          </span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+        <div class="p-4 rounded-xl bg-zinc-950/60 border border-white/[0.05]">
+          <span class="font-mono text-zinc-300 font-medium block mb-1">Estructuras & Algoritmos</span>
+          <p class="text-zinc-400 leading-relaxed">
+            Comprensión profunda de complejidad algorítmica, optimización de memoria y estructuras de datos eficientes.
+          </p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-zinc-950/60 border border-white/[0.05]">
+          <span class="font-mono text-zinc-300 font-medium block mb-1">Patrones de Software</span>
+          <p class="text-zinc-400 leading-relaxed">
+            Aplicación de principios SOLID, arquitecturas limpias y modularidad orientada a proyectos escalables.
+          </p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-zinc-950/60 border border-white/[0.05]">
+          <span class="font-mono text-zinc-300 font-medium block mb-1">Sistemas & Redes</span>
+          <p class="text-zinc-400 leading-relaxed">
+            Fundamentos de protocolos HTTP, arquitectura cliente-servidor y rendimiento de red en aplicaciones web.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. The 4-Layer Frontend Architecture Matrix -->
+    <div>
+      <span class="font-mono text-xs text-zinc-500 uppercase tracking-wider block mb-4">
+        Matriz de Arquitectura Frontend por Capas
+      </span>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {architectureLayers.map((layer) => (
+          <div class="craft-card spotlight-card p-6 rounded-2xl flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-3 hairline-b pb-3">
+                <span class="text-xs font-mono font-medium text-amber-400/90">
+                  Capa {layer.num}
+                </span>
+                <span class="text-[11px] font-mono text-zinc-500">
+                  {layer.focus}
+                </span>
+              </div>
+
+              <h4 class="text-base font-semibold text-white tracking-tight mb-4">
+                {layer.name}
+              </h4>
+
+              <div class="space-y-2">
+                {layer.tools.map((tool) => (
+                  <div class="flex items-center justify-between p-2 rounded-lg bg-zinc-900/60 border border-white/[0.04] text-xs font-mono">
+                    <span class="text-zinc-200 font-medium">{tool.name}</span>
+                    <span class="text-zinc-500 text-[11px]">{tool.role}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
