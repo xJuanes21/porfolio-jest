@@ -1,19 +1,26 @@
 ---
 import '../styles/global.css';
+import LanguageToggle from '../components/LanguageToggle.astro';
 
 interface Props {
   title?: string;
   description?: string;
+  lang?: 'es' | 'en';
 }
 
 const {
-  title = "Juan Esteban Salazar | Frontend Developer & React/Next.js Specialist",
-  description = "Portafolio de Juan Esteban Salazar Toro. Desarrollador Frontend enfocado en React, Next.js, TypeScript, micro-interacciones fluidas y desarrollo asistido por Inteligencia Artificial.",
+  lang = 'es',
+  title = lang === 'en' 
+    ? "Juan Esteban Salazar | Frontend Developer & React/Next.js Specialist"
+    : "Juan Esteban Salazar | Frontend Developer & React/Next.js Specialist",
+  description = lang === 'en'
+    ? "Portfolio of Juan Esteban Salazar Toro. Frontend Developer focused on React, Next.js, TypeScript, fluid micro-interactions, and AI-assisted development."
+    : "Portafolio de Juan Esteban Salazar Toro. Desarrollador Frontend enfocado en React, Next.js, TypeScript, micro-interacciones fluidas y desarrollo asistido por Inteligencia Artificial.",
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="es" class="dark scroll-smooth">
+<html lang={lang} class="dark scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -54,6 +61,9 @@ const {
     <div class="relative z-20 flex min-h-screen flex-col justify-between">
       <slot />
     </div>
+
+    <!-- Fixed Floating Language Switcher -->
+    <LanguageToggle currentLang={lang} />
 
     <script>
       // Global mouse tracking for card spotlight (Emil Kowalski pattern)

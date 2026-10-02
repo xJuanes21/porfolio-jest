@@ -1,0 +1,245 @@
+---
+
+interface Props {
+  className?: string;
+  itemsVisibleDesktop?: number;
+  autoPlay?: boolean;
+  autoPlayInterval?: number;
+  pauseOnHover?: boolean;
+}
+
+const {
+  className = "",
+  itemsVisibleDesktop = 3,
+  autoPlay = false,
+  autoPlayInterval = 3000,
+  pauseOnHover = true,
+} = Astro.props;
+---
+
+<unified-carousel
+  data-items-visible={itemsVisibleDesktop}
+  data-auto-play={autoPlay.toString()}
+  data-interval={autoPlayInterval}
+  data-pause-on-hover={pauseOnHover.toString()}
+  class={`block relative px-0 md:px-16 group/carousel ${className}`}
+>
+  <!-- Navigation Buttons (Desktop) -->
+  <div class="hidden md:block absolute top-1/2 -translate-y-1/2 left-0 z-30 opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300">
+    <button
+      class="carousel-prev p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-sky-400/20 hover:border-sky-400/50 transition-all duration-300 backdrop-blur-xl group/btn cursor-pointer"
+      aria-label="Previous"
+    >
+      <svg class="w-8 h-8 group-hover/btn:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="hidden md:block absolute top-1/2 -translate-y-1/2 right-0 z-30 opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300">
+    <button
+      class="carousel-next p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-sky-400/20 hover:border-sky-400/50 transition-all duration-300 backdrop-blur-xl group/btn cursor-pointer"
+      aria-label="Next"
+    >
+      <svg class="w-8 h-8 group-hover/btn:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Carousel Track -->
+  <div class="overflow-visible">
+    <!-- Viewport: handles mobile scroll vs desktop hidden -->
+    <div
+      class="carousel-viewport flex md:block overflow-x-auto snap-x snap-mandatory md:overflow-hidden md:snap-none py-6 -my-6 px-4 md:px-0 md:py-8 md:-my-8 scrollbar-hide"
+    >
+      <!-- Track: moves via JS on desktop -->
+      <div class="carousel-track flex items-stretch md:transition-transform md:duration-500 md:ease-out">
+        <slot />
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination dots (Desktop) -->
+  <div class="carousel-pagination hidden md:flex justify-center gap-3 mt-12"></div>
+</unified-carousel>
+
+<style define:vars={{ itemsVisible: itemsVisibleDesktop }}>
+  /* Base track gap */
+  .carousel-track {
+    gap: 24px;
+  }
+  
+  /* Children styling directly */
+  unified-carousel .carousel-track > :global(*) {
+    scroll-snap-align: center;
+    flex-shrink: 0;
+    width: 85vw;
+    /* Simulate the mobile wrapper padding from the React version */
+    padding: 4rem 1rem;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  /* Desktop overrides */
+  @media (min-width: 768px) {
+    .carousel-track {
+      gap: 56px;
+    }
+    
+    unified-carousel .carousel-track > :global(*) {
+      padding: 0;
+      /* width = (100% - total_gap_space) / items_visible */
+      width: calc((100% - ((var(--itemsVisible) - 1) * 56px)) / var(--itemsVisible));
+    }
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  /* Highlight state injected by JS */
+  unified-carousel .carousel-track > :global(*[data-highlighted="false"]) {
+    opacity: 0.6;
+    transform: scale(0.98);
+  }
+  unified-carousel .carousel-track > :global(*[data-highlighted="true"]) {
+    opacity: 1;
+    transform: scale(1);
+  }
+</style>
+
+<script>
+  class UnifiedCarousel extends HTMLElement {
+    constructor() {
+      super();
+
+      const itemsVisibleDesktop = parseInt(this.dataset.itemsVisible || "3", 10);
+      const autoPlay = this.dataset.autoPlay === "true";
+      const autoPlayInterval = parseInt(this.dataset.interval || "3000", 10);
+      const pauseOnHover = this.dataset.pauseOnHover === "true";
+
+      const track = this.querySelector(".carousel-track") as HTMLElement;
+      const prevBtn = this.querySelector(".carousel-prev") as HTMLButtonElement;
+      const nextBtn = this.querySelector(".carousel-next") as HTMLButtonElement;
+      const paginationContainer = this.querySelector(".carousel-pagination") as HTMLElement;
+      
+      const items = Array.from(track.children) as HTMLElement[];
+      const totalItems = items.length;
+
+      let currentIndex = 0;
+      let activeHighlightIndex = 0;
+      let isPaused = false;
+      let isMobile = window.innerWidth < 768;
+      let intervalId: number | null = null;
+
+      // Create pagination dots
+      const maxIndex = Math.max(0, totalItems - itemsVisibleDesktop + 1);
+      const dots: HTMLButtonElement[] = [];
+
+      // Define goTo locally
+      const goTo = (index: number) => {
+        currentIndex = Math.max(0, Math.min(index, totalItems - itemsVisibleDesktop));
+        activeHighlightIndex = currentIndex;
+        updateUI();
+      };
+
+      for (let i = 0; i < maxIndex; i++) {
+        const dot = document.createElement("button");
+        dot.className = "h-2 rounded-full transition-all duration-500 w-2 bg-white/10 hover:bg-white/20";
+        dot.addEventListener("click", () => goTo(i));
+        paginationContainer.appendChild(dot);
+        dots.push(dot);
+      }
+
+      const updateUI = () => {
+        // Update dots
+        dots.forEach((dot, i) => {
+          if (i === currentIndex) {
+            dot.className = "h-2 rounded-full transition-all duration-500 w-10 bg-sky-400";
+          } else {
+            dot.className = "h-2 rounded-full transition-all duration-500 w-2 bg-white/10 hover:bg-white/20";
+          }
+        });
+
+        // Highlight active item
+        items.forEach((item, i) => {
+          item.dataset.highlighted = (i === activeHighlightIndex && !isPaused).toString();
+        });
+
+        // Translate track on desktop
+        if (!isMobile) {
+          const gap = 56;
+          track.style.transform = `translateX(calc(-${currentIndex} * (100% + ${gap}px) / ${itemsVisibleDesktop}))`;
+        } else {
+          track.style.transform = "";
+        }
+      };
+
+      const next = () => {
+        currentIndex = currentIndex + 1 > totalItems - itemsVisibleDesktop ? 0 : currentIndex + 1;
+        activeHighlightIndex = currentIndex;
+        updateUI();
+      };
+
+      const prev = () => {
+        currentIndex = currentIndex - 1 < 0 ? totalItems - itemsVisibleDesktop : currentIndex - 1;
+        activeHighlightIndex = currentIndex;
+        updateUI();
+      };
+
+      if (prevBtn) prevBtn.addEventListener("click", prev);
+      if (nextBtn) nextBtn.addEventListener("click", next);
+
+      const checkMobile = () => {
+        isMobile = window.innerWidth < 768;
+        updateUI();
+      };
+      window.addEventListener("resize", checkMobile);
+
+      // Autoplay Logic
+      if (autoPlay) {
+        const tick = () => {
+          if (isPaused) return;
+
+          activeHighlightIndex = (activeHighlightIndex + 1) % totalItems;
+
+          if (!isMobile) {
+            if (activeHighlightIndex >= currentIndex + itemsVisibleDesktop) {
+              currentIndex = Math.min(activeHighlightIndex, totalItems - itemsVisibleDesktop);
+            } else if (activeHighlightIndex < currentIndex) {
+              currentIndex = activeHighlightIndex;
+            } else if (activeHighlightIndex === 0) {
+              currentIndex = 0;
+            }
+          }
+          
+          updateUI();
+        };
+
+        intervalId = window.setInterval(tick, autoPlayInterval);
+
+        if (pauseOnHover) {
+          this.addEventListener("mouseenter", () => {
+            isPaused = true;
+            updateUI();
+          });
+          this.addEventListener("mouseleave", () => {
+            isPaused = false;
+            updateUI();
+          });
+        }
+      }
+
+      // Initial render
+      updateUI();
+    }
+  }
+
+  customElements.define("unified-carousel", UnifiedCarousel);
+</script>

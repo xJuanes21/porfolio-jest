@@ -3,7 +3,7 @@
 @layer base {
   :root {
     --bg-base: #09090b;
-    --accent-amber: #f59e0b;
+    --accent-sky: #38bdf8;
     --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
   }
@@ -23,8 +23,8 @@
   }
 
   ::selection {
-    background-color: rgba(245, 158, 11, 0.25);
-    color: #fef3c7;
+    background-color: rgba(56, 189, 248, 0.25);
+    color: #e0f2fe; /* sky-100 */
   }
 }
 
@@ -130,22 +130,24 @@
   letter-spacing: -0.05em;
 }
 
-/* ── Stage Deck: sections stack as numbered pages ─────────────────────────── */
-/* Native CSS sticky is removed. We use GSAP ScrollTrigger pinning instead 
-   so tall sections can scroll naturally without nested scrollbars. */
+/* ── Stage Deck: sections stack as numbered card layers ──────────────────── */
 .stage-layer {
   position: relative;
-  z-index: 1;
-  background: #09090b;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 -24px 48px -28px rgba(0, 0, 0, 0.7);
+  will-change: transform, opacity;
+  transform-origin: top center;
+}
+
+.stage-layer:not(#hero) {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-top-left-radius: 1.75rem;
+  border-top-right-radius: 1.75rem;
+  box-shadow: 0 -28px 60px -14px rgba(0, 0, 0, 0.95), 0 -1px 0 0 rgba(255, 255, 255, 0.08);
 }
 
 /* Last stage lands as static so the footer stays reachable */
 .stage-final {
   position: relative;
   z-index: 1;
-  background: #09090b;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: 0 -24px 48px -28px rgba(0, 0, 0, 0.7);
 }
@@ -220,7 +222,7 @@
 .stack-progress-fill {
   width: 100%;
   height: 0%;
-  background: linear-gradient(to bottom, #f59e0b, rgba(245,158,11,0.3));
+  background: linear-gradient(to bottom, #38bdf8, rgba(56,189,248,0.3));
   border-radius: inherit;
   will-change: height;
 }

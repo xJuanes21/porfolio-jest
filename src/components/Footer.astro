@@ -1,4 +1,12 @@
 ---
+import { getI18n } from '../i18n/utils';
+
+export interface Props {
+  lang?: 'es' | 'en';
+}
+
+const { lang = 'es' } = Astro.props;
+const t = getI18n(lang).footer;
 const currentYear = new Date().getFullYear();
 ---
 
@@ -9,18 +17,18 @@ const currentYear = new Date().getFullYear();
         Juan Esteban Salazar
       </span>
       <span class="hidden sm:inline-block text-zinc-700">&bull;</span>
-      <span>Cali, Colombia &bull; UTC-5</span>
+      <span>{t.city}</span>
     </div>
 
     <div class="flex items-center gap-6 font-mono text-[11px]">
       <span class="text-zinc-400">
-        Astro &bull; Tailwind &bull; GSAP
+        {t.tech}
       </span>
       <a
         href="#hero"
         class="text-zinc-500 hover:text-zinc-300 transition-colors inline-flex items-center gap-1"
       >
-        <span>Volver arriba</span>
+        <span>{t.backToTop}</span>
         <span aria-hidden="true">&uarr;</span>
       </a>
     </div>

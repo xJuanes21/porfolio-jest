@@ -1,169 +1,126 @@
 ---
-import SkillCarousel from './SkillCarousel.astro';
+import SkillCarousel from "./SkillCarousel.astro";
+import UnifiedCarousel from "./UnifiedCarousel.astro";
+import { getI18n } from "../i18n/utils";
 
-const architectureLayers = [
+export interface Props {
+  lang?: "es" | "en";
+}
 
-  {
-    num: '01',
-    name: 'Core UI & Frameworks',
-    focus: 'Ecosistema de renderizado y componentes reactivos',
-    tools: [
-      { name: 'React 19', role: 'Component Core' },
-      { name: 'Next.js (App Router)', role: 'SSR / SSG / ISR' },
-      { name: 'Astro', role: 'Content & Islands' },
-      { name: 'HTML5 Semántico', role: 'Accesibilidad' },
-    ],
-  },
-  {
-    num: '02',
-    name: 'Tipado Estricto & Modelado de Datos',
-    focus: 'Inmunidad a errores de runtime y contratos seguros',
-    tools: [
-      { name: 'TypeScript', role: 'Strict Mode' },
-      { name: 'REST & GraphQL', role: 'API Contracts' },
-      { name: 'Prisma ORM', role: 'Schema & Database' },
-      { name: 'Zod', role: 'Validation' },
-    ],
-  },
-  {
-    num: '03',
-    name: 'Styling, Cinemática & Micro-Physics',
-    focus: 'Diseño táctil y rendimiento a 60/120 FPS',
-    tools: [
-      { name: 'Tailwind CSS v4', role: 'Design Tokens' },
-      { name: 'GSAP 3 & ScrollTrigger', role: 'Kinetic Motion' },
-      { name: 'Emil Kowalski Craft', role: 'Spring Physics' },
-      { name: 'WCAG AA AA', role: 'Accessibility Standard' },
-    ],
-  },
-  {
-    num: '04',
-    name: 'Ingeniería Asistida por IA & Tooling',
-    focus: 'Productividad aumentada y agentes autónomos',
-    tools: [
-      { name: 'OpenAI / Anthropic APIs', role: 'LLM Integration' },
-      { name: 'Agentic Workflows', role: 'AI Orchestration' },
-      { name: 'Prompt Engineering', role: 'Context Design' },
-      { name: 'Git & GitHub Actions', role: 'CI / CD Pipelines' },
-    ],
-  },
-];
+const { lang = "es" } = Astro.props;
+const t = getI18n(lang).bentoSkills;
 ---
 
-<section id="education" class="stage-layer py-28 px-4 md:px-8 relative overflow-x-clip">
-  <!-- Parallax Stage Watermark -->
-  <span class="stage-watermark top-0 right-2 select-none" aria-hidden="true">04</span>
-
+<section
+  id="education"
+  style="background-color: #0a101d;"
+  class="stage-layer py-28 px-4 md:px-8 relative overflow-x-clip"
+>
   <div class="max-w-5xl mx-auto w-full z-10 relative">
-    
     <!-- Kinetic Section Divider Rule -->
     <div class="section-divider mb-12"></div>
 
     <!-- Section Header with Masked Reveal -->
     <div class="mb-16">
-      <span class="font-mono text-xs text-amber-400/90 tracking-wider uppercase block mb-2">
-        04 &bull; Formación & Capacidades
+      <span
+        class="font-mono text-xs text-sky-400/90 tracking-wider uppercase block mb-2"
+      >
+        {t.headerSub}
       </span>
-      <h2 class="text-2xl sm:text-4xl font-semibold tracking-[-0.025em] text-white mb-3">
+      <h2
+        class="text-2xl sm:text-4xl font-semibold tracking-[-0.025em] text-white mb-3"
+      >
         <span class="mask-reveal">
-          <span class="mask-reveal-inner">Fundamentos de Ingeniería & Matriz de Arquitectura</span>
+          <span class="mask-reveal-inner">{t.headerTitle}</span>
         </span>
       </h2>
       <p class="text-zinc-400 text-sm sm:text-base max-w-xl leading-relaxed">
-        Bases rigurosas de computación combinadas con el dominio metódico de las capas tecnológicas que componen el software moderno.
+        {t.headerDesc}
       </p>
     </div>
 
     <!-- ══ Skill Carousel Band ═══════════════════════════════════════════ -->
     <div class="mb-14">
-      <span class="font-mono text-xs text-zinc-500 uppercase tracking-wider block mb-5">
-        Stack Tecnológico
+      <span
+        class="font-mono text-xs text-zinc-500 uppercase tracking-wider block mb-5"
+      >
+        {t.stackTitle}
       </span>
       <SkillCarousel />
     </div>
 
-    <!-- 1. Academic Engineering Dossier Panel -->
-
-    <div class="craft-card spotlight-card p-6 sm:p-8 rounded-3xl mb-10 inner-bevel">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 hairline-b pb-5 mb-5">
-        <div>
-          <span class="text-xs font-mono text-amber-400/90 uppercase tracking-wider block mb-1">
-            Grado Académico Universitario
-          </span>
-          <h3 class="text-xl sm:text-2xl font-semibold text-white tracking-tight">
-            Ingeniería de Computación
-          </h3>
-          <p class="text-xs sm:text-sm font-mono text-zinc-400 mt-0.5">
-            Universidad Autónoma de Occidente (UAO) &bull; Cali, Colombia
-          </p>
-        </div>
-
-        <div class="text-left md:text-right">
-          <span class="inline-flex px-3 py-1 rounded-full bg-emerald-950/50 border border-emerald-500/20 text-emerald-400 font-mono text-xs">
-            Graduación: 2026 (En Culminación)
-          </span>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-        <div class="p-4 rounded-xl bg-zinc-950/60 border border-white/[0.05]">
-          <span class="font-mono text-zinc-300 font-medium block mb-1">Estructuras & Algoritmos</span>
-          <p class="text-zinc-400 leading-relaxed">
-            Comprensión profunda de complejidad algorítmica, optimización de memoria y estructuras de datos eficientes.
-          </p>
-        </div>
-
-        <div class="p-4 rounded-xl bg-zinc-950/60 border border-white/[0.05]">
-          <span class="font-mono text-zinc-300 font-medium block mb-1">Patrones de Software</span>
-          <p class="text-zinc-400 leading-relaxed">
-            Aplicación de principios SOLID, arquitecturas limpias y modularidad orientada a proyectos escalables.
-          </p>
-        </div>
-
-        <div class="p-4 rounded-xl bg-zinc-950/60 border border-white/[0.05]">
-          <span class="font-mono text-zinc-300 font-medium block mb-1">Sistemas & Redes</span>
-          <p class="text-zinc-400 leading-relaxed">
-            Fundamentos de protocolos HTTP, arquitectura cliente-servidor y rendimiento de red en aplicaciones web.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- 2. The 4-Layer Frontend Architecture Matrix -->
+    <!-- ══ Education Carousel ═══════════════════════════════════════════ -->
     <div>
-      <span class="font-mono text-xs text-zinc-500 uppercase tracking-wider block mb-4">
-        Matriz de Arquitectura Frontend por Capas
+      <span class="font-mono text-xs text-zinc-500 uppercase tracking-wider block mb-8">
+        {t.educationLabel}
       </span>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {architectureLayers.map((layer) => (
-          <div class="craft-card spotlight-card p-6 rounded-2xl flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-3 hairline-b pb-3">
-                <span class="text-xs font-mono font-medium text-amber-400/90">
-                  Capa {layer.num}
-                </span>
-                <span class="text-[11px] font-mono text-zinc-500">
-                  {layer.focus}
-                </span>
+      <UnifiedCarousel itemsVisibleDesktop={1} autoPlay={false}>
+        {t.degrees.map((deg: any) => (
+          <div class="edu-card relative rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0d1117]"
+            style={`--deg-accent: ${deg.accentColor}`}
+          >
+            <!-- Top accent stripe -->
+            <div class="absolute top-0 inset-x-0 h-px"
+              style={`background: linear-gradient(90deg, transparent, ${deg.accentColor}60, transparent)`}
+            ></div>
+            <!-- Ambient top glow -->
+            <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-48 rounded-full blur-3xl pointer-events-none"
+              style={`background: ${deg.accentColor}12`}
+            ></div>
+
+            <div class="relative z-10 p-8 sm:p-10 flex flex-col gap-8">
+
+              <!-- Header row -->
+              <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+                <!-- Left: institution + title -->
+                <div class="flex gap-5 items-start">
+                  <div>
+                    <span class="text-[11px] font-mono tracking-[0.12em] uppercase block mb-1.5"
+                      style={`color: ${deg.accentColor}99`}
+                    >{deg.institution}</span>
+                    <h3 class="text-xl sm:text-2xl font-semibold text-white tracking-tight leading-snug">{deg.title}</h3>
+                    <p class="text-xs font-mono text-zinc-500 mt-1.5 flex items-center gap-1.5">
+                      <svg class="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                      {deg.location}
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Right: graduated badge -->
+                 <div class="shrink-0 flex flex-col items-center justify-center rounded-xl px-3 py-2 border"
+                    style={`background: ${deg.accentColor}0f; border-color: ${deg.accentColor}28`}
+                  >
+                    <span class="font-mono font-bold text-2xl leading-none"
+                      style={`color: ${deg.accentColor}`}
+                    >{deg.year}</span>
+                  </div>
               </div>
 
-              <h4 class="text-base font-semibold text-white tracking-tight mb-4">
-                {layer.name}
-              </h4>
+              <!-- Divider -->
+              <div class="h-px w-full" style={`background: linear-gradient(90deg, ${deg.accentColor}30, rgba(255,255,255,0.04) 60%, transparent)`}></div>
 
-              <div class="space-y-2">
-                {layer.tools.map((tool) => (
-                  <div class="flex items-center justify-between p-2 rounded-lg bg-zinc-900/60 border border-white/[0.04] text-xs font-mono">
-                    <span class="text-zinc-200 font-medium">{tool.name}</span>
-                    <span class="text-zinc-500 text-[11px]">{tool.role}</span>
+              <!-- Description -->
+              <p class="text-sm text-zinc-400 leading-[1.75] max-w-2xl">{deg.description}</p>
+
+              <!-- Pillars grid -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                {deg.pillars.map((p: any) => (
+                  <div class="group/pillar flex items-start gap-3 p-3.5 rounded-xl border border-white/[0.05] bg-white/[0.02] hover:border-white/[0.1] hover:bg-white/[0.04] transition-all duration-200">
+                    <!-- Accent glyph -->
+                    <span class="shrink-0 mt-0.5 text-[13px] font-mono font-bold" style={`color: ${deg.accentColor}80`}>→</span>
+                    <div class="min-w-0">
+                      <span class="font-mono text-[11px] font-semibold text-zinc-200 block mb-1 tracking-wide">{p.title}</span>
+                      <p class="text-[11px] text-zinc-500 leading-relaxed">{p.desc}</p>
+                    </div>
                   </div>
                 ))}
               </div>
+
             </div>
           </div>
         ))}
-      </div>
+      </UnifiedCarousel>
     </div>
 
   </div>

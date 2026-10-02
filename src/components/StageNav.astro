@@ -1,16 +1,25 @@
 ---
+import { getI18n } from '../i18n/utils';
+
+interface Props {
+  lang?: 'es' | 'en';
+}
+
+const { lang = 'es' } = Astro.props;
+const t = getI18n(lang).stageNav;
+
 const stages = [
-  { id: 'hero', num: '01', label: 'Inicio' },
-  { id: 'experience', num: '02', label: 'Experiencia' },
-  { id: 'projects', num: '03', label: 'Trabajo' },
-  { id: 'education', num: '04', label: 'Formación' },
-  { id: 'contact', num: '05', label: 'Contacto' },
+  { id: 'hero', num: '01', label: t.s1 },
+  { id: 'experience', num: '02', label: t.s2 },
+  { id: 'projects', num: '03', label: t.s3 },
+  { id: 'education', num: '04', label: t.s4 },
+  { id: 'contact', num: '05', label: t.s5 },
 ];
 ---
 
-<div id="stage-rail" class="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col items-end pointer-events-none select-none">
+<div id="stage-rail" class="fixed bottom-6 left-1/2 -translate-x-1/2 xl:top-1/2 xl:bottom-auto xl:left-auto xl:right-6 xl:-translate-y-1/2 xl:translate-x-0 z-[100] flex xl:flex-col items-center xl:items-end pointer-events-none select-none">
   <!-- Outer container -->
-  <div class="pointer-events-auto p-3 rounded-2xl border border-white/[0.06] bg-zinc-950/70 backdrop-blur-xl shadow-2xl flex flex-col gap-4 inner-bevel">
+  <div class="pointer-events-auto p-2.5 xl:p-3 rounded-full xl:rounded-2xl border border-white/[0.06] bg-zinc-950/70 backdrop-blur-xl shadow-2xl flex flex-row xl:flex-col items-center gap-4 xl:gap-4 inner-bevel">
     
     <!-- Stage items -->
     {stages.map((stage) => (
@@ -18,18 +27,22 @@ const stages = [
         href={`#${stage.id}`}
         data-stage={stage.id}
         class="stage-nav-item group flex items-center gap-3 transition-colors text-right focus:outline-none"
+        aria-label={stage.label}
       >
-        <!-- Label tooltip on hover or active -->
-        <span class="stage-label text-[11px] font-mono text-zinc-500 group-hover:text-zinc-200 transition-colors opacity-60 group-hover:opacity-100">
-          {stage.label}
+        <!-- Label tooltip (Desktop only) -->
+        <span class="stage-label hidden xl:block text-[11px] font-mono text-zinc-500 group-hover:text-zinc-200 transition-colors opacity-60 group-hover:opacity-100">
+          {stage.label} 
         </span>
 
         <!-- Number & Dot Indicator -->
         <div class="flex items-center gap-1.5">
-          <span class="stage-num font-mono text-[10px] text-zinc-600 group-hover:text-amber-400/90 transition-colors">
+          <span class="stage-num hidden xl:block font-mono text-[10px] text-zinc-600 group-hover:text-sky-400/90 transition-colors">
             {stage.num}
           </span>
-          <span class="stage-indicator-dot w-1.5 h-1.5 rounded-full bg-zinc-800 border border-white/10 group-hover:border-amber-400/60 group-hover:bg-amber-400/40 transition-all"></span>
+          <!-- Mobile touch target wrapper -->
+          <div class="p-1 xl:p-0">
+            <span class="stage-indicator-dot block w-2 h-2 xl:w-1.5 xl:h-1.5 rounded-full bg-zinc-800 border border-white/10 group-hover:border-sky-400/60 group-hover:bg-sky-400/40 transition-all"></span>
+          </div>
         </div>
       </a>
     ))}

@@ -1,0 +1,247 @@
+{
+  "nav": {
+    "brand": "Juan Salazar",
+    "brandSuffix": ".dev",
+    "cta": "Hablemos"
+  },
+  "stageNav": {
+    "s1": "Inicio",
+    "s2": "Experiencia",
+    "s3": "Trabajo",
+    "s4": "Formación",
+    "s5": "Contacto"
+  },
+  "hero": {
+    "badge": "Disponible • Software & Technology Developer",
+    "titleLine1": "Desarrollador de",
+    "titleLine2": "Software y Tecnología.",
+    "bio1": "Soy",
+    "bioName": "Juan Esteban Salazar Toro",
+    "bio2": ". Experto en",
+    "bioHighlights": "Desarrollo Web, Inteligencia Artificial, e Integraciones",
+    "bio3": ". Construyo aplicaciones web de alto rendimiento, flujos automatizados con",
+    "bioTools": "n8n / Python",
+    "bio4": ", y ecosistemas completos usando React y Next.js.",
+    "ctaWork": "Ver Trabajo Seleccionado",
+    "ctaContact": "Iniciar Contacto",
+    "footnote1": "UAO Ingeniería '26",
+    "footnote2": "Cali, Colombia (UTC-5)",
+    "footnote3": "Web Vitals 100%",
+    "badgeDeploy": "Ready to deploy"
+  },
+  "experience": {
+    "headerSub": "02 • Trayectoria",
+    "headerTitle": "Experiencia Profesional",
+    "headerDesc": "Registro de roles y contribuciones prácticas en el ciclo de desarrollo de software.",
+    "challengesTitle": "Retos Técnicos & Soluciones",
+    "present": "Presente",
+    "items": [
+      {
+        "role": "Frontend Developer",
+        "company": "EasyTech",
+        "logo": "/assets/logos/easytech.png",
+        "period": "2025 — 2026",
+        "scope": "Aplicaciones Empresariales",
+        "description": "Desarrollo de aplicaciones web e interfaces corporativas orientadas a la gestión de información y administración interna.",
+        "challenges": [
+          {
+            "title": "Sistemas Internos & Dashboards",
+            "detail": "Construcción de herramientas administrativas utilizando React, Next.js, TypeScript y Tailwind CSS."
+          },
+          {
+            "title": "Integración API & Backend",
+            "detail": "Conexión de aplicaciones con lógica de negocio mediante APIs REST y fuentes de datos externas."
+          },
+          {
+            "title": "Calidad & Mantenibilidad",
+            "detail": "Traducción de requerimientos funcionales en soluciones técnicas prácticas y escalables usando Git/GitHub."
+          }
+        ],
+        "stack": ["React", "Next.js", "TypeScript", "Tailwind CSS", "REST APIs"]
+      },
+      {
+        "role": "Desarrollador de Software — Pasante",
+        "company": "Hospital Universitario del Valle",
+        "logo": "/assets/logos/huv.png",
+        "period": "2024",
+        "scope": "Salud Digital & Sistemas Hospitalarios",
+        "description": "Pasantía universitaria en el área de sistemas del HUV — Hospital Universitario del Valle Evaristo García E.S.E. Participación en el desarrollo y soporte de soluciones de software aplicadas al entorno hospitalario.",
+        "challenges": [
+          {
+            "title": "Digitalización de Procesos",
+            "detail": "Apoyo en el desarrollo de herramientas de gestión de información clínica y administrativa."
+          },
+          {
+            "title": "Soporte de Sistemas",
+            "detail": "Mantenimiento y mejora de módulos de software en producción dentro del entorno hospitalario."
+          },
+          {
+            "title": "Contexto Regulado",
+            "detail": "Trabajo bajo estándares de privacidad y seguridad de datos en un entorno de salud crítico."
+          }
+        ],
+        "stack": ["Java", "SQL", "Sistemas Hospitalarios", "Gestión de Datos"]
+      },
+      {
+        "role": "Desarrollador de Software",
+        "company": "Freelance",
+        "logo": "",
+        "period": "2024 — Presente",
+        "scope": "Soluciones a Medida",
+        "description": "Desarrollo integral de sitios web, landing pages y aplicaciones web personalizadas según requerimientos directos del cliente.",
+        "challenges": [
+          {
+            "title": "Gestión de Proyecto E2E",
+            "detail": "Levantamiento de requerimientos, implementación, optimización y despliegue final."
+          },
+          {
+            "title": "Interfaces Responsivas",
+            "detail": "Construcción de interfaces enfocadas en usabilidad, experiencia de usuario y accesibilidad."
+          },
+          {
+            "title": "Integración Externa",
+            "detail": "Conexión e integración de APIs y servicios externos de acuerdo a las necesidades específicas de cada proyecto."
+          }
+        ],
+        "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Astro", "Integraciones"]
+      }
+    ]
+  },
+  "projects": {
+    "headerSub": "03 • Trabajo Seleccionado",
+    "headerTitle": "Proyectos & Arquitectura",
+    "headerDesc": "Sistemas en producción construidos con atención meticulosa a la performance y el diseño de interfaz.",
+    "viewDemo": "Ver demo",
+    "viewCode": "Ver código",
+    "badgeFeatured1": "Proyecto Insignia 01",
+    "badgeFeatured2": "Proyecto Insignia 02",
+    "items": [
+      {
+        "id": 1,
+        "title": "EasyTech Analytics & Resource Console",
+        "description": "Consola corporativa de analíticas en tiempo real para administración de recursos de alto volumen. Renderizado híbrido SSR, filtros dinámicos persistentes y arquitectura modular.",
+        "category": "Enterprise Dashboard"
+      },
+      {
+        "id": 2,
+        "title": "Fintech Payment & Checkout",
+        "description": "Flujo de checkout optimizado para conversión con validación reactiva y procesamiento Stripe.",
+        "category": "Fintech / Payments"
+      },
+      {
+        "id": 3,
+        "title": "Developer Platform & Interactive Docs",
+        "description": "Portal de documentación técnica con búsqueda instantánea y visor de código interactivo.",
+        "category": "Documentation / OS"
+      },
+      {
+        "id": 4,
+        "title": "AI Studio & Prompt Engineering Suite",
+        "description": "Plataforma para experimentación y streaming en tiempo real de modelos de lenguaje con micro-interacciones táctiles y markdown dinámico.",
+        "category": "GenAI / Frontend"
+      },
+      {
+        "id": 5,
+        "title": "SaaS Analytics & Cloud Metrics",
+        "description": "Plataforma de métricas corporativas con filtros dinámicos en tiempo real y exportación de reportes tabulares.",
+        "category": "Analytics / Metrics"
+      },
+      {
+        "id": 6,
+        "title": "Real-Time Team Workspace",
+        "description": "Espacio colaborativo para equipos con tableros interactivos y presencia en tiempo real.",
+        "category": "Productivity / Web App"
+      }
+    ]
+  },
+  "bentoSkills": {
+    "headerSub": "04 • Formación & Capacidades",
+    "headerTitle": "Formación & Fundamentos de Ingeniería",
+    "headerDesc": "Dos etapas de formación técnica que construyeron las bases para entender el software desde los cimientos hasta la producción.",
+    "stackTitle": "Stack Tecnológico",
+    "educationLabel": "Trayectoria Académica",
+    "degrees": [
+      {
+        "year": "2026",
+        "institution": "Universidad Autónoma de Occidente • UAO",
+        "title": "Ingeniero Informático",
+        "location": "Cali, Colombia",
+        "accentColor": "#34d399",
+        "badge": "Graduado 2026",
+        "badgeColor": "bg-emerald-950/50 border-emerald-500/20 text-emerald-400",
+        "description": "Carrera orientada al diseño, construcción y despliegue de sistemas de software. Formación en ingeniería de software, arquitecturas de aplicaciones, infraestructura cloud y redes, con énfasis en el desarrollo de productos digitales escalables y experiencias de usuario de alto rendimiento.",
+        "pillars": [
+          {
+            "title": "Ingeniería de Software",
+            "desc": "SOLID, clean code, patrones de diseño (MVC, Repository, Factory), pruebas unitarias y flujos CI/CD."
+          },
+          {
+            "title": "Arquitectura & Sistemas",
+            "desc": "Diseño de sistemas distribuidos, microservicios, APIs REST/GraphQL y arquitecturas orientadas a eventos."
+          },
+          {
+            "title": "Cloud & Despliegues",
+            "desc": "Fundamentos AWS/GCP, contenedores Docker, orquestación básica y pipelines de despliegue automatizado."
+          },
+          {
+            "title": "Redes & Protocolos",
+            "desc": "Modelo OSI/TCP-IP, HTTP/S, WebSockets, DNS y diagnóstico de tráfico en entornos cliente-servidor."
+          },
+          {
+            "title": "Estructuras & Algoritmos",
+            "desc": "Complejidad Big-O, árboles, grafos, ordenamiento, búsqueda y optimización aplicada a sistemas reales."
+          },
+          {
+            "title": "Bases de Datos",
+            "desc": "Modelado relacional y no relacional, SQL avanzado, transacciones ACID, índices y optimización de consultas."
+          }
+        ]
+      },
+      {
+        "year": "2021",
+        "institution": "Colegio Salesiano San Juan Bosco • Tuluá",
+        "title": "Bachiller Técnico en Desarrollo de Software",
+        "location": "Tuluá, Colombia",
+        "accentColor": "#38bdf8",
+        "badge": "Graduado 2021",
+        "badgeColor": "bg-sky-950/50 border-sky-500/20 text-sky-400",
+        "description": "Primera formación técnica en programación y construcción de aplicaciones. Aquí comenzó la trayectoria en tecnología: lógica de programación, desarrollo de aplicaciones básicas y fundamentos del ciclo de vida del software.",
+        "pillars": [
+          {
+            "title": "Lógica de Programación",
+            "desc": "Algoritmos, diagramas de flujo, estructuras de control y pensamiento computacional desde cero."
+          },
+          {
+            "title": "Desarrollo de Aplicaciones",
+            "desc": "Construcción de aplicaciones de escritorio y web básicas; introducción a HTML, CSS y bases de datos."
+          },
+          {
+            "title": "Fundamentos del Software",
+            "desc": "Ciclo de vida del software (SDLC), análisis de requerimientos, documentación técnica básica."
+          }
+        ]
+      }
+    ]
+  },
+  "contact": {
+    "headerSub": "05 • Contacto",
+    "headerTitle": "Consola de Comunicación Directa",
+    "headerDesc": "Disponible para integraciones en equipos de ingeniería frontend, productos desde cero o consultoría de rendimiento.",
+    "badge": "Disponibilidad Activa",
+    "title": "¿Tienes en mente un proyecto o una oportunidad en tu equipo?",
+    "desc": "Respondo activamente a consultas técnicas, propuestas de desarrollo y oportunidades de ingeniería frontend.",
+    "copyEmail": "Copiar Email",
+    "copied": "✓ ¡Copiado al portapapeles!",
+    "directMail": "Mail Directo",
+    "localTime": "Hora Local (Cali, CO)",
+    "responseTime": "Tiempo de Respuesta:",
+    "responseValue": "< 24 Horas",
+    "modality": "Modalidad:",
+    "modalityValue": "Remoto / Híbrido"
+  },
+  "footer": {
+    "city": "Cali, Colombia • UTC-5",
+    "tech": "Astro • Tailwind • GSAP",
+    "backToTop": "Volver arriba"
+  }
+}
