@@ -1,22 +1,20 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Navbar from '../../components/Navbar.astro';
-import StageNav from '../../components/StageNav.astro';
-import Hero from '../../components/Hero.astro';
-import Experience from '../../components/Experience.astro';
-import Projects from '../../components/Projects.astro';
-import BentoSkills from '../../components/BentoSkills.astro';
-import Contact from '../../components/Contact.astro';
-import Footer from '../../components/Footer.astro';
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Hero from "../../components/Hero.astro";
+import Experience from "../../components/Experience.astro";
+import Projects from "../../components/Projects.astro";
+import BentoSkills from "../../components/BentoSkills.astro";
+import Contact from "../../components/Contact.astro";
+import Footer from "../../components/Footer.astro";
 ---
 
-<Layout 
+<Layout
   lang="en"
   title="Juan Esteban Salazar | Frontend Engineer & Interface Architect"
   description="Portfolio of Juan Esteban Salazar Toro. Frontend Engineer specialized in React 19, Next.js, TypeScript, modular architectures, and tactile GSAP interfaces."
 >
   <Navbar lang="en" />
-  <StageNav lang="en" />
 
   <main class="relative">
     <!-- Stage 1: Hero -->
@@ -39,6 +37,6 @@ import Footer from '../../components/Footer.astro';
 </Layout>
 
 <script>
-  import { initPortfolioAnimations } from '../../scripts/animations';
+  import { initPortfolioAnimations } from "../../scripts/animations";
   initPortfolioAnimations();
 </script>

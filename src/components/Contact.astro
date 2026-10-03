@@ -8,11 +8,56 @@ export interface Props {
 const { lang = "es" } = Astro.props;
 const t = getI18n(lang).contact;
 const email = "juanesalazar2004@gmail.com";
+const githubUrl = "https://github.com/xJuanes21";
+const linkedinUrl = "https://www.linkedin.com/in/juan-esteban-salazar-t-617449276";
+
+const intentOptions =
+  lang === "en"
+    ? [
+        {
+          id: "job",
+          label: "💼 Team Opportunity",
+          subject: "Frontend Engineering Opportunity - Juan Esteban Salazar",
+          body: "Hi Juan Esteban,\n\nI came across your portfolio and would like to talk about an opportunity for our team...\n\nBest regards,",
+        },
+        {
+          id: "project",
+          label: "🚀 Greenfield Project",
+          subject: "New Project Inquiry - Frontend Architecture",
+          body: "Hi Juan Esteban,\n\nWe have a project in mind and would love your frontend expertise to build it...\n\nBest regards,",
+        },
+        {
+          id: "consulting",
+          label: "⚡ UI & Consulting",
+          subject: "Technical Consulting Inquiry",
+          body: "Hi Juan Esteban,\n\nI'd like to consult with you regarding frontend performance and design systems...\n\nBest regards,",
+        },
+      ]
+    : [
+        {
+          id: "job",
+          label: "💼 Oportunidad Laboral",
+          subject: "Oportunidad de Ingeniería Frontend - Juan Esteban Salazar",
+          body: "Hola Juan Esteban,\n\nRevisé tu portafolio y me gustaría conversar sobre una oportunidad en nuestro equipo...\n\nSaludos,",
+        },
+        {
+          id: "project",
+          label: "🚀 Proyecto Nuevo",
+          subject: "Propuesta de Proyecto - Arquitectura Frontend",
+          body: "Hola Juan Esteban,\n\nTenemos en mente un proyecto y nos gustaría contar con tu experiencia técnica...\n\nSaludos,",
+        },
+        {
+          id: "consulting",
+          label: "⚡ Consultoría UI",
+          subject: "Consulta Técnica / Optimización UI",
+          body: "Hola Juan Esteban,\n\nMe gustaría consultar contigo sobre rendimiento frontend y sistemas de diseño...\n\nSaludos,",
+        },
+      ];
 ---
 
 <section
   id="contact"
-  class="stage-layer py-28 px-4 md:px-8 relative overflow-hidden min-h-screen"
+  class="stage-layer py-24 sm:py-28 px-4 md:px-8 relative overflow-hidden"
   style="background-color: #020202;"
 >
   <div class="max-w-4xl mx-auto w-full z-10 relative">
@@ -20,7 +65,7 @@ const email = "juanesalazar2004@gmail.com";
     <div class="section-divider mb-12"></div>
 
     <!-- Section Header with Masked Reveal -->
-    <div class="mb-14">
+    <div class="mb-10 sm:mb-14">
       <span
         class="font-mono text-xs text-sky-400/90 tracking-wider uppercase block mb-2"
       >
@@ -30,132 +75,257 @@ const email = "juanesalazar2004@gmail.com";
         class="text-2xl sm:text-4xl font-semibold tracking-[-0.025em] text-white mb-3"
       >
         <span class="mask-reveal">
-          <span class="mask-reveal-inner">{t.headerTitle}</span>
+          <span class="mask-reveal-inner">{t.title}</span>
         </span>
       </h2>
       <p class="text-zinc-400 text-sm sm:text-base max-w-xl leading-relaxed">
-        {t.headerDesc}
+        {t.desc}
       </p>
     </div>
 
     <!-- Interactive Communication Console Card -->
     <div
-      class="contact-card craft-card spotlight-card p-6 sm:p-10 rounded-3xl inner-bevel"
+      class="contact-card craft-card spotlight-card p-6 sm:p-9 rounded-3xl inner-bevel"
     >
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-        <!-- Left Column: Primary Messaging & Action (Span 7) -->
-        <div class="md:col-span-7 space-y-6">
-          <div>
-            <div
-              class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/40 border border-emerald-500/20 text-emerald-400 text-xs font-mono mb-4"
-            >
-              <span class="relative flex h-2 w-2">
-                <span
-                  class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
-                ></span>
-                <span
-                  class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"
-                ></span>
-              </span>
-              <span>{t.badge}</span>
-            </div>
-
-            <h3
-              class="text-xl sm:text-2xl font-semibold text-white tracking-tight leading-snug"
-            >
-              {t.title}
-            </h3>
-            <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed mt-2">
-              {t.desc}
-            </p>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Left Column: Interactive Dispatcher & Intent (Span 7) -->
+        <div class="lg:col-span-7 space-y-6">
+          <!-- Availability Status Badge -->
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/40 border border-emerald-500/20 text-emerald-400 text-xs font-mono"
+          >
+            <span class="relative flex h-2 w-2">
+              <span
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+              ></span>
+              <span
+                class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"
+              ></span>
+            </span>
+            <span>{t.badge}</span>
           </div>
 
-          <!-- Tactile Actions -->
-          <div
-            class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3"
-          >
-            <button
-              id="copy-email-btn"
-              data-email={email}
-              data-copied-text={t.copied}
-              data-original-text={`${t.copyEmail} (${email})`}
-              class="tactile-btn inline-flex items-center justify-center gap-2.5 px-5 py-2.5 rounded-full bg-zinc-100 text-zinc-950 font-medium text-xs sm:text-sm hover:bg-white shadow-lg cursor-pointer"
+          <!-- Email Hub: One-Click Copy & Direct Action -->
+          <div class="space-y-2">
+            <span
+              class="text-[11px] font-mono uppercase tracking-wider text-zinc-500 block"
             >
-              <svg
-                class="w-4 h-4 text-zinc-800"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                ></path>
-              </svg>
-              <span id="btn-text">{t.copyEmail} ({email})</span>
-            </button>
+              {lang === "en" ? "Primary Contact Channel" : "Canal de Contacto Principal"}
+            </span>
+            <div
+              class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between p-2 sm:p-2.5 rounded-2xl bg-zinc-900/70 border border-white/10 hover:border-white/20 transition-colors gap-2"
+            >
+              <div class="flex items-center gap-2.5 px-3 py-1.5 overflow-hidden">
+                <svg
+                  class="w-4 h-4 text-sky-400 shrink-0"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                <span
+                  class="font-mono text-xs sm:text-sm text-zinc-100 truncate select-all"
+                >
+                  {email}
+                </span>
+              </div>
 
-            <a
-              href={`mailto:${email}`}
-              class="tactile-btn inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full border border-white/10 bg-zinc-900/60 text-zinc-300 hover:text-white text-xs sm:text-sm font-medium transition-colors"
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button
+                  id="copy-email-btn"
+                  data-email={email}
+                  data-copied-label={t.copied}
+                  class="tactile-btn inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 text-zinc-200 text-xs font-mono border border-white/10 transition-colors cursor-pointer"
+                  title="Copiar email al portapapeles"
+                >
+                  <svg
+                    id="copy-icon"
+                    class="w-3.5 h-3.5 text-zinc-300"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    ></path>
+                  </svg>
+                  <span id="copy-btn-text">{t.copyEmail}</span>
+                </button>
+
+                <a
+                  id="direct-mailto-link"
+                  href={`mailto:${email}?subject=${encodeURIComponent(intentOptions[0].subject)}&body=${encodeURIComponent(intentOptions[0].body)}`}
+                  class="tactile-btn inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-medium font-mono shadow-sm transition-colors cursor-pointer"
+                  title="Abrir en cliente de correo"
+                >
+                  <span>{t.directMail}</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Topic Selector (Prefilled Intent Helper) -->
+          <div class="space-y-2.5 pt-1">
+            <span
+              class="text-[11px] font-mono uppercase tracking-wider text-zinc-500 block"
             >
-              <span>{t.directMail} &rarr;</span>
-            </a>
+              {lang === "en"
+                ? "Select conversation intent (pre-fills email):"
+                : "Elige el motivo de tu mensaje (pre-configura el correo):"}
+            </span>
+            <div class="flex flex-wrap gap-2" id="intent-pills">
+              {intentOptions.map((intent, index) => (
+                <button
+                  type="button"
+                  data-subject={intent.subject}
+                  data-body={intent.body}
+                  class={`intent-pill tactile-btn text-xs font-mono px-3 py-1.5 rounded-full border transition-all duration-150 cursor-pointer ${
+                    index === 0
+                      ? "bg-zinc-800 text-white border-white/20 shadow-xs"
+                      : "bg-zinc-900/50 text-zinc-400 border-white/5 hover:text-zinc-200 hover:border-white/10"
+                  }`}
+                >
+                  {intent.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
-        <!-- Right Column: Telemetry & Live Clock (Span 5) -->
-        <div
-          class="md:col-span-5 space-y-3 p-5 rounded-2xl bg-zinc-950/70 border border-white/[0.06] text-xs font-mono"
-        >
-          <!-- Live Clock -->
-          <div class="space-y-1 hairline-b pb-3">
+        <!-- Right Column: Verified Networks & Live Telemetry (Span 5) -->
+        <div class="lg:col-span-5 space-y-4">
+          <!-- Verified Professional Networks -->
+          <div class="space-y-2">
             <span
-              class="text-[10px] text-zinc-500 uppercase tracking-wider block"
-              >{t.localTime}</span
+              class="text-[11px] font-mono uppercase tracking-wider text-zinc-500 block"
             >
-            <div
-              class="text-base text-zinc-100 font-semibold flex items-center justify-between"
-            >
-              <span id="live-clock">--:--:--</span>
-              <span class="text-[11px] text-sky-400/90 font-normal">UTC-5</span>
+              {lang === "en" ? "Verified Profiles" : "Perfiles Verificados"}
+            </span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5">
+              <!-- LinkedIn Card -->
+              <a
+                href={linkedinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group flex items-center justify-between p-3 rounded-2xl bg-zinc-900/60 border border-white/[0.08] hover:border-white/20 hover:bg-zinc-800/50 transition-all duration-200 cursor-pointer"
+              >
+                <div class="flex items-center gap-3">
+                  <div
+                    class="p-2 rounded-xl bg-[#0077b5]/10 border border-[#0077b5]/20 text-[#38bdf8] shrink-0"
+                  >
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path
+                        d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.64 1.64 0 1 0 0 3.28 1.64 1.64 0 0 0 0-3.28"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <span
+                      class="text-xs font-medium text-zinc-200 block group-hover:text-white transition-colors"
+                    >
+                      LinkedIn
+                    </span>
+                    <span class="text-[11px] font-mono text-zinc-500 block">
+                      Juan Esteban Salazar
+                    </span>
+                  </div>
+                </div>
+                <svg
+                  class="w-4 h-4 text-zinc-500 group-hover:text-zinc-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M7 17L17 7M17 7H7M17 7V17"
+                  ></path>
+                </svg>
+              </a>
+
+              <!-- GitHub Card -->
+              <a
+                href={githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group flex items-center justify-between p-3 rounded-2xl bg-zinc-900/60 border border-white/[0.08] hover:border-white/20 hover:bg-zinc-800/50 transition-all duration-200 cursor-pointer"
+              >
+                <div class="flex items-center gap-3">
+                  <div
+                    class="p-2 rounded-xl bg-white/5 border border-white/10 text-zinc-300 shrink-0"
+                  >
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <span
+                      class="text-xs font-medium text-zinc-200 block group-hover:text-white transition-colors"
+                    >
+                      GitHub
+                    </span>
+                    <span class="text-[11px] font-mono text-zinc-500 block">
+                      @xJuanes21
+                    </span>
+                  </div>
+                </div>
+                <svg
+                  class="w-4 h-4 text-zinc-500 group-hover:text-zinc-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M7 17L17 7M17 7H7M17 7V17"
+                  ></path>
+                </svg>
+              </a>
             </div>
           </div>
 
-          <!-- Channel Info -->
-          <div class="space-y-2 pt-1 text-zinc-400">
-            <div class="flex justify-between items-center">
-              <span>{t.responseTime}</span>
+          <!-- Channel Telemetry Details -->
+          <div
+            class="p-4 rounded-2xl bg-zinc-950/80 border border-white/[0.06] text-xs font-mono space-y-2.5"
+          >
+            <!-- Local Time Zone -->
+            <div class="flex justify-between items-center text-zinc-400">
+              <span class="text-zinc-500">{t.localTime}</span>
+              <div class="flex items-center gap-1.5">
+                <span id="live-clock" class="text-zinc-200 font-medium">--:--</span>
+                <span class="text-[10px] text-sky-400/90 font-mono">UTC-5</span>
+              </div>
+            </div>
+
+            <!-- Response SLA -->
+            <div class="flex justify-between items-center text-zinc-400">
+              <span class="text-zinc-500">{t.responseTime}</span>
               <span class="text-zinc-200 font-medium">{t.responseValue}</span>
             </div>
-            <div class="flex justify-between items-center">
-              <span>{t.modality}</span>
+
+            <!-- Modality -->
+            <div class="flex justify-between items-center text-zinc-400">
+              <span class="text-zinc-500">{t.modality}</span>
               <span class="text-zinc-200 font-medium">{t.modalityValue}</span>
             </div>
-          </div>
-
-          <!-- Social Shortcuts -->
-          <div
-            class="pt-3 hairline-t flex items-center justify-between text-zinc-400"
-          >
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="hover:text-white transition-colors"
-            >
-              GitHub &rarr;
-            </a>
-            <a
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="hover:text-white transition-colors"
-            >
-              LinkedIn &rarr;
-            </a>
           </div>
         </div>
       </div>
@@ -164,32 +334,94 @@ const email = "juanesalazar2004@gmail.com";
 </section>
 
 <script>
-  // Dynamic Email Copy feedback
+  // Email Copy with tactile morph feedback
   const copyBtn = document.getElementById("copy-email-btn");
-  const btnText = document.getElementById("btn-text");
+  const copyBtnText = document.getElementById("copy-btn-text");
+  const copyIcon = document.getElementById("copy-icon");
 
-  if (copyBtn && btnText) {
+  if (copyBtn && copyBtnText) {
+    const originalLabel = copyBtnText.textContent || "Copiar Email";
     copyBtn.addEventListener("click", async () => {
       const email = copyBtn.getAttribute("data-email") || "";
-      const copiedText =
-        copyBtn.getAttribute("data-copied-text") || "✓ Copiado!";
-      const originalText =
-        copyBtn.getAttribute("data-original-text") || `Copiar Email (${email})`;
+      const copiedLabel =
+        copyBtn.getAttribute("data-copied-label") || "¡Copiado!";
       try {
         await navigator.clipboard.writeText(email);
-        btnText.textContent = copiedText;
-        copyBtn.classList.add("bg-sky-300");
+        copyBtnText.textContent = copiedLabel;
+        copyBtn.classList.remove(
+          "bg-white/10",
+          "border-white/10",
+          "text-zinc-200"
+        );
+        copyBtn.classList.add(
+          "bg-emerald-500/20",
+          "border-emerald-500/30",
+          "text-emerald-300"
+        );
+        if (copyIcon) {
+          copyIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>`;
+        }
         setTimeout(() => {
-          btnText.textContent = originalText;
-          copyBtn.classList.remove("bg-sky-300");
-        }, 2200);
-      } catch (err) {
+          copyBtnText.textContent = originalLabel;
+          copyBtn.classList.remove(
+            "bg-emerald-500/20",
+            "border-emerald-500/30",
+            "text-emerald-300"
+          );
+          copyBtn.classList.add(
+            "bg-white/10",
+            "border-white/10",
+            "text-zinc-200"
+          );
+          if (copyIcon) {
+            copyIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>`;
+          }
+        }, 2000);
+      } catch {
         window.location.href = `mailto:${email}`;
       }
     });
   }
 
-  // Live Clock Ticker (Cali, Colombia UTC-5)
+  // Dynamic Intent Pills -> update mailto href with subject & body
+  const mailtoLink = document.getElementById(
+    "direct-mailto-link"
+  ) as HTMLAnchorElement | null;
+  const pills = document.querySelectorAll<HTMLButtonElement>(".intent-pill");
+
+  pills.forEach((pill) => {
+    pill.addEventListener("click", () => {
+      pills.forEach((p) => {
+        p.classList.remove(
+          "bg-zinc-800",
+          "text-white",
+          "border-white/20",
+          "shadow-xs"
+        );
+        p.classList.add("bg-zinc-900/50", "text-zinc-400", "border-white/5");
+      });
+
+      pill.classList.remove(
+        "bg-zinc-900/50",
+        "text-zinc-400",
+        "border-white/5"
+      );
+      pill.classList.add(
+        "bg-zinc-800",
+        "text-white",
+        "border-white/20",
+        "shadow-xs"
+      );
+
+      const subject = pill.getAttribute("data-subject") || "";
+      const body = pill.getAttribute("data-body") || "";
+      if (mailtoLink) {
+        mailtoLink.href = `mailto:juanesalazar2004@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      }
+    });
+  });
+
+  // Battery-efficient Local Clock (Cali, CO UTC-5)
   const updateClock = () => {
     const clockEl = document.getElementById("live-clock");
     if (!clockEl) return;
@@ -198,12 +430,11 @@ const email = "juanesalazar2004@gmail.com";
       timeZone: "America/Bogota",
       hour: "2-digit",
       minute: "2-digit",
-      second: "2-digit",
       hour12: true,
     };
-    clockEl.textContent = new Intl.DateTimeFormat("es-CO", options).format(now);
+    clockEl.textContent = new Intl.DateTimeFormat("en-US", options).format(now);
   };
 
   updateClock();
-  setInterval(updateClock, 1000);
+  setInterval(updateClock, 30000);
 </script>

@@ -17,9 +17,9 @@
     "titleLine2": "Software y Tecnología.",
     "bio1": "Soy",
     "bioName": "Juan Esteban Salazar Toro",
-    "bio2": ". Experto en",
+    "bio2": ". Experto en ",
     "bioHighlights": "Desarrollo Web, Inteligencia Artificial, e Integraciones",
-    "bio3": ". Construyo aplicaciones web de alto rendimiento, flujos automatizados con",
+    "bio3": ". Construyo aplicaciones web de alto rendimiento, flujos automatizados con ",
     "bioTools": "n8n / Python",
     "bio4": ", y ecosistemas completos usando React y Next.js.",
     "ctaWork": "Ver Trabajo Seleccionado",
@@ -110,47 +110,63 @@
   "projects": {
     "headerSub": "03 • Trabajo Seleccionado",
     "headerTitle": "Proyectos & Arquitectura",
-    "headerDesc": "Sistemas en producción construidos con atención meticulosa a la performance y el diseño de interfaz.",
-    "viewDemo": "Ver demo",
-    "viewCode": "Ver código",
-    "badgeFeatured1": "Proyecto Insignia 01",
-    "badgeFeatured2": "Proyecto Insignia 02",
+    "headerDesc": "Soluciones reales en producción: desde sistemas hospitalarios de misión crítica hasta plataformas SaaS y sitios corporativos.",
+    "viewDemo": "Visitar sitio",
+    "viewCode": "Ver detalles",
+    "liveSite": "Online",
+    "privateBadge": "Acceso Restringido",
+    "privateDisclaimer": "Por privacidad institucional del Hospital Universitario del Valle y confidencialidad médica del Banco de Sangre, el acceso público a este sistema no está disponible.",
+    "whiteLabelBadge": "Marca Blanca",
     "items": [
       {
         "id": 1,
-        "title": "EasyTech Analytics & Resource Console",
-        "description": "Consola corporativa de analíticas en tiempo real para administración de recursos de alto volumen. Renderizado híbrido SSR, filtros dinámicos persistentes y arquitectura modular.",
-        "category": "Enterprise Dashboard"
+        "title": "Sistema MIS-BS — Banco de Sangre HUV",
+        "category": "Salud & Trazabilidad Digital",
+        "description": "Solución digital desarrollada para optimizar los procesos físicos del Banco de Sangre en el Hospital Universitario del Valle (HUV). Permite llevar la operación diaria a una trazabilidad digital integral con arquitectura de alta fiabilidad.",
+        "badge": "Sistema Clínico HUV",
+        "privacyNotice": "Por privacidad institucional de la entidad de salud, el acceso a este sistema no es público."
       },
       {
         "id": 2,
-        "title": "Fintech Payment & Checkout",
-        "description": "Flujo de checkout optimizado para conversión con validación reactiva y procesamiento Stripe.",
-        "category": "Fintech / Payments"
+        "title": "FitBrandly — White Label Application",
+        "category": "SaaS / Fitness Tech",
+        "description": "Plataforma web de marca blanca para gestión y venta de productos digitales, asesorías y planes de entrenamiento personalizado para entrenadores y creadores del nicho fitness.",
+        "badge": "Plataforma SaaS"
       },
       {
         "id": 3,
-        "title": "Developer Platform & Interactive Docs",
-        "description": "Portal de documentación técnica con búsqueda instantánea y visor de código interactivo.",
-        "category": "Documentation / OS"
+        "title": "ITW LLC — Corporate Website",
+        "category": "Servicios Empresariales (EE. UU.)",
+        "description": "Sitio web corporativo para servicios empresariales en Estados Unidos, con arquitectura moderna, carga instantánea y presentación ejecutiva de servicios.",
+        "badge": "En Producción"
       },
       {
         "id": 4,
-        "title": "AI Studio & Prompt Engineering Suite",
-        "description": "Plataforma para experimentación y streaming en tiempo real de modelos de lenguaje con micro-interacciones táctiles y markdown dinámico.",
-        "category": "GenAI / Frontend"
+        "title": "Colombo Farmacéutica — Corporate Website",
+        "category": "Sector Farmacéutico",
+        "description": "Landing page y presencia digital corporativa para el sector farmacéutico, enfocada en catálogo institucional, confianza y conversión de clientes B2B.",
+        "badge": "En Producción"
       },
       {
         "id": 5,
-        "title": "SaaS Analytics & Cloud Metrics",
-        "description": "Plataforma de métricas corporativas con filtros dinámicos en tiempo real y exportación de reportes tabulares.",
-        "category": "Analytics / Metrics"
+        "title": "SCF — Freelance Website",
+        "category": "Consultoría Empresarial (Luxemburgo)",
+        "description": "Sitio web corporativo desarrollado como proyecto freelance para consultoría y servicios en Luxemburgo, con enfoque estético minimalista y estándares europeos.",
+        "badge": "En Producción"
       },
       {
         "id": 6,
-        "title": "Real-Time Team Workspace",
-        "description": "Espacio colaborativo para equipos con tableros interactivos y presencia en tiempo real.",
-        "category": "Productivity / Web App"
+        "title": "COYMAN PROYECTOS — Corporate Website",
+        "category": "Ingeniería & Obras Civiles",
+        "description": "Landing page corporativa para presentación empresarial de proyectos de ingeniería, obras civiles y portafolio de infraestructura comercial e industrial.",
+        "badge": "En Producción"
+      },
+      {
+        "id": 7,
+        "title": "SIPRAC — Corporate Website",
+        "category": "Seguridad & Soluciones Digitales",
+        "description": "Solución digital y landing page corporativa para presentación de servicios de seguridad privada, protección patrimonial y gestión operativa.",
+        "badge": "En Producción"
       }
     ]
   },

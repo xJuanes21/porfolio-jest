@@ -16,7 +16,7 @@ const t = getI18n(lang).bentoSkills;
   style="background-color: #0a101d;"
   class="stage-layer py-28 px-4 md:px-8 relative overflow-x-clip"
 >
-  <div class="max-w-5xl mx-auto w-full z-10 relative">
+  <div class="max-w-5xl mx-auto w-full z-10 relative" style="--carousel-bg: #0a101d;">
     <!-- Kinetic Section Divider Rule -->
     <div class="section-divider mb-12"></div>
 
@@ -69,7 +69,7 @@ const t = getI18n(lang).bentoSkills;
               style={`background: ${deg.accentColor}12`}
             ></div>
 
-            <div class="relative z-10 p-8 sm:p-10 flex flex-col gap-8">
+            <div class="relative z-10 p-5 sm:p-8 md:p-10 flex flex-col gap-5 md:gap-8">
 
               <!-- Header row -->
               <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
@@ -104,14 +104,14 @@ const t = getI18n(lang).bentoSkills;
               <p class="text-sm text-zinc-400 leading-[1.75] max-w-2xl">{deg.description}</p>
 
               <!-- Pillars grid -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-2.5">
                 {deg.pillars.map((p: any) => (
-                  <div class="group/pillar flex items-start gap-3 p-3.5 rounded-xl border border-white/[0.05] bg-white/[0.02] hover:border-white/[0.1] hover:bg-white/[0.04] transition-all duration-200">
+                  <div class="group/pillar flex items-start gap-3 p-2.5 md:p-3.5 rounded-xl border border-white/[0.05] bg-white/[0.02] hover:border-white/[0.1] hover:bg-white/[0.04] transition-all duration-200">
                     <!-- Accent glyph -->
                     <span class="shrink-0 mt-0.5 text-[13px] font-mono font-bold" style={`color: ${deg.accentColor}80`}>→</span>
                     <div class="min-w-0">
-                      <span class="font-mono text-[11px] font-semibold text-zinc-200 block mb-1 tracking-wide">{p.title}</span>
-                      <p class="text-[11px] text-zinc-500 leading-relaxed">{p.desc}</p>
+                      <span class="font-mono text-[11px] font-semibold text-zinc-200 block mb-0.5 md:mb-1 tracking-wide">{p.title}</span>
+                      <p class="text-[11px] text-zinc-500 leading-relaxed hidden sm:block">{p.desc}</p>
                     </div>
                   </div>
                 ))}

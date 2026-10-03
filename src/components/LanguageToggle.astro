@@ -1,10 +1,10 @@
 ---
 export interface Props {
-  currentLang?: 'es' | 'en';
+  currentLang?: "es" | "en";
   className?: string;
 }
 
-const { currentLang = 'es', className = '' } = Astro.props;
+const { currentLang = "es", className = "" } = Astro.props;
 ---
 
 <div
@@ -14,82 +14,192 @@ const { currentLang = 'es', className = '' } = Astro.props;
   aria-label="Selector de idioma / Language Switcher"
 >
   <div
-    class="flex items-center gap-1.5 p-1 rounded-full border border-white/10 bg-zinc-950/80 backdrop-blur-xl shadow-2xl shadow-black/60 hover:border-white/20 transition-all duration-300 inner-bevel"
+    class="flex items-center gap-1.5 p-1 rounded-full border border-white/10 bg-zinc-950/85 backdrop-blur-xl shadow-2xl shadow-black/80 ring-1 ring-white/5 inner-bevel hover:border-white/20 transition-[border-color] duration-200"
   >
     <!-- Globe Icon -->
-    <div class="pl-2 pr-1 text-zinc-400" aria-hidden="true">
-      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div class="pl-2 pr-1 text-zinc-500" aria-hidden="true">
+      <svg
+        class="w-3.5 h-3.5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
         <path
           stroke-linecap="round"
           stroke-linejoin="round"
           stroke-width="1.8"
           d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
-        />
+        ></path>
       </svg>
     </div>
 
-    <!-- Spanish Switch -->
-    <a
-      href="/"
-      data-lang="es"
-      class={`lang-btn relative px-2.5 py-1 text-xs font-mono font-medium rounded-full transition-all duration-200 cursor-pointer ${
-        currentLang === 'es'
-          ? 'bg-sky-400 text-zinc-950 shadow-sm font-semibold'
-          : 'text-zinc-400 hover:text-white'
-      }`}
-      aria-label="Cambiar a Español"
-      aria-current={currentLang === 'es' ? 'true' : 'false'}
-    >
-      ES
-    </a>
+    <!-- Segmented Control Track -->
+    <div class="relative flex items-center bg-zinc-900/70 p-0.5 rounded-full border border-white/5">
+      <!-- Tactile Sliding Pill (Hardware Craft Finish) -->
+      <div
+        id="lang-pill-indicator"
+        class={`absolute left-0.5 top-0.5 bottom-0.5 w-[56px] rounded-full bg-zinc-800/90 border border-white/15 shadow-[0_1px_3px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.12)] pointer-events-none transition-transform duration-200 ${
+          currentLang === "es" ? "translate-x-0" : "translate-x-full"
+        }`}
+        style="transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);"
+      ></div>
 
-    <!-- Divider -->
-    <span class="text-zinc-700 text-xs font-mono select-none" aria-hidden="true">/</span>
+      <!-- Spanish Switch -->
+      <a
+        href="/"
+        data-lang="es"
+        class={`lang-btn relative z-10 flex items-center justify-center gap-1.5 w-[56px] py-1 text-[11px] font-mono rounded-full transition-colors duration-150 cursor-pointer active:scale-95 ${
+          currentLang === "es"
+            ? "text-zinc-100 font-semibold"
+            : "text-zinc-400 hover:text-zinc-200"
+        }`}
+        aria-label="Cambiar a Español"
+        aria-current={currentLang === "es" ? "true" : "false"}
+      >
+        <!-- Crisp Micro Spain Flag -->
+        <svg
+          class="w-3.5 h-2.5 rounded-[2px] overflow-hidden shadow-xs ring-1 ring-white/15 shrink-0"
+          viewBox="0 0 20 14"
+          fill="none"
+          aria-hidden="true"
+        >
+          <rect width="20" height="14" fill="#AA151B"></rect>
+          <rect y="3.5" width="20" height="7" fill="#F1BF00"></rect>
+          <rect x="4" y="5" width="2.5" height="4" rx="1" fill="#AA151B" opacity="0.85"></rect>
+        </svg>
+        <span>ES</span>
+      </a>
 
-    <!-- English Switch -->
-    <a
-      href="/en"
-      data-lang="en"
-      class={`lang-btn relative px-2.5 py-1 text-xs font-mono font-medium rounded-full transition-all duration-200 cursor-pointer ${
-        currentLang === 'en'
-          ? 'bg-sky-400 text-zinc-950 shadow-sm font-semibold'
-          : 'text-zinc-400 hover:text-white'
-      }`}
-      aria-label="Switch to English"
-      aria-current={currentLang === 'en' ? 'true' : 'false'}
-    >
-      EN
-    </a>
+      <!-- English Switch -->
+      <a
+        href="/en"
+        data-lang="en"
+        class={`lang-btn relative z-10 flex items-center justify-center gap-1.5 w-[56px] py-1 text-[11px] font-mono rounded-full transition-colors duration-150 cursor-pointer active:scale-95 ${
+          currentLang === "en"
+            ? "text-zinc-100 font-semibold"
+            : "text-zinc-400 hover:text-zinc-200"
+        }`}
+        aria-label="Switch to English"
+        aria-current={currentLang === "en" ? "true" : "false"}
+      >
+        <!-- Crisp Micro USA Flag -->
+        <svg
+          class="w-3.5 h-2.5 rounded-[2px] overflow-hidden shadow-xs ring-1 ring-white/15 shrink-0"
+          viewBox="0 0 20 14"
+          fill="none"
+          aria-hidden="true"
+        >
+          <rect width="20" height="14" fill="#B22234"></rect>
+          <path
+            d="M0 1.08h20M0 3.23h20M0 5.38h20M0 7.54h20M0 9.69h20M0 11.85h20"
+            stroke="#FFFFFF"
+            stroke-width="1.08"
+          ></path>
+          <rect width="8" height="7.54" fill="#3C3B6E"></rect>
+          <circle cx="2.2" cy="2" r="0.5" fill="#FFFFFF"></circle>
+          <circle cx="4" cy="2" r="0.5" fill="#FFFFFF"></circle>
+          <circle cx="5.8" cy="2" r="0.5" fill="#FFFFFF"></circle>
+          <circle cx="3.1" cy="3.77" r="0.5" fill="#FFFFFF"></circle>
+          <circle cx="4.9" cy="3.77" r="0.5" fill="#FFFFFF"></circle>
+          <circle cx="2.2" cy="5.54" r="0.5" fill="#FFFFFF"></circle>
+          <circle cx="4" cy="5.54" r="0.5" fill="#FFFFFF"></circle>
+          <circle cx="5.8" cy="5.54" r="0.5" fill="#FFFFFF"></circle>
+        </svg>
+        <span>EN</span>
+      </a>
+    </div>
   </div>
 </div>
 
 <script>
-  // Ensure hash (e.g. #projects) is preserved when toggling language
-  const setupLanguageSwitchers = () => {
-    document.querySelectorAll<HTMLAnchorElement>('.lang-btn').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        const targetLang = btn.getAttribute('data-lang');
-        const hash = window.location.hash || '';
-        if (targetLang) {
-          localStorage.setItem('portfolio_pref_lang', targetLang);
+  // Detect currently visible section to preserve user location across language toggle
+  const getActiveSectionId = (): string => {
+    const sectionIds = ["hero", "experience", "projects", "education", "contact"];
+    const focalPoint = window.innerHeight * 0.45;
+
+    for (const id of sectionIds) {
+      const el = document.getElementById(id);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= focalPoint && rect.bottom >= focalPoint) {
+          return id;
         }
-        
+      }
+    }
+
+    let closestId = "hero";
+    let minDistance = Infinity;
+    for (const id of sectionIds) {
+      const el = document.getElementById(id);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const dist = Math.abs(rect.top);
+        if (dist < minDistance) {
+          minDistance = dist;
+          closestId = id;
+        }
+      }
+    }
+    return closestId;
+  };
+
+  const setupLanguageSwitchers = () => {
+    const pill = document.getElementById("lang-pill-indicator");
+
+    // Restore section if navigated from language switch
+    const targetSection = sessionStorage.getItem("portfolio_target_section");
+    if (targetSection && targetSection !== "hero") {
+      sessionStorage.removeItem("portfolio_target_section");
+      const targetEl = document.getElementById(targetSection);
+      if (targetEl) {
+        setTimeout(() => {
+          targetEl.scrollIntoView({ behavior: "instant" });
+        }, 100);
+      }
+    }
+
+    document.querySelectorAll<HTMLAnchorElement>(".lang-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const targetLang = btn.getAttribute("data-lang");
+        if (targetLang) {
+          localStorage.setItem("portfolio_pref_lang", targetLang);
+        }
+
         // If clicking same language, do nothing
-        const isCurrent = btn.getAttribute('aria-current') === 'true';
+        const isCurrent = btn.getAttribute("aria-current") === "true";
         if (isCurrent) {
           e.preventDefault();
           return;
         }
 
         e.preventDefault();
-        const base = targetLang === 'en' ? '/en' : '/';
-        window.location.href = `${base}${hash}`;
+
+        // Instant tactile feedback: slide pill before route transition
+        if (pill) {
+          if (targetLang === "en") {
+            pill.classList.remove("translate-x-0");
+            pill.classList.add("translate-x-full");
+          } else {
+            pill.classList.remove("translate-x-full");
+            pill.classList.add("translate-x-0");
+          }
+        }
+
+        // Detect real current visible section (avoids stale hash redirects)
+        const activeSection = getActiveSectionId();
+        const targetHash = activeSection && activeSection !== "hero" ? `#${activeSection}` : "";
+        sessionStorage.setItem("portfolio_target_section", activeSection);
+
+        const base = targetLang === "en" ? "/en" : "/";
+        setTimeout(() => {
+          window.location.href = `${base}${targetHash}`;
+        }, 120);
       });
     });
   };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupLanguageSwitchers);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupLanguageSwitchers);
   } else {
     setupLanguageSwitchers();
   }

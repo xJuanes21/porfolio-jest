@@ -17,9 +17,9 @@
     "titleLine2": "Technology Developer.",
     "bio1": "I am",
     "bioName": "Juan Esteban Salazar Toro",
-    "bio2": ". Expert in",
+    "bio2": ". Expert in ",
     "bioHighlights": "Web Development, Artificial Intelligence, and Integrations",
-    "bio3": ". I build high-performance web applications, automated workflows using",
+    "bio3": ". I build high-performance web applications, automated workflows using ",
     "bioTools": "n8n / Python",
     "bio4": ", and complete ecosystems with React and Next.js.",
     "ctaWork": "View Selected Work",
@@ -110,47 +110,63 @@
   "projects": {
     "headerSub": "03 • Selected Work",
     "headerTitle": "Projects & Architecture",
-    "headerDesc": "Production systems built with meticulous attention to performance, scalability, and interface craftsmanship.",
-    "viewDemo": "Live Demo",
-    "viewCode": "View Code",
-    "badgeFeatured1": "Flagship Project 01",
-    "badgeFeatured2": "Flagship Project 02",
+    "headerDesc": "Real production systems: from mission-critical hospital software to white-label SaaS platforms and corporate web solutions.",
+    "viewDemo": "Visit Website",
+    "viewCode": "View Details",
+    "liveSite": "Online",
+    "privateBadge": "Restricted Access (HUV)",
+    "privateDisclaimer": "Due to institutional privacy policies at Valle University Hospital and clinical blood donation confidentiality, public access is strictly restricted.",
+    "whiteLabelBadge": "White Label",
     "items": [
       {
         "id": 1,
-        "title": "EasyTech Analytics & Resource Console",
-        "description": "Corporate real-time analytics console for high-volume enterprise resource management. Hybrid SSR rendering, persistent dynamic filters, and modular architecture.",
-        "category": "Enterprise Dashboard"
+        "title": "MIS-BS System — HUV Blood Bank",
+        "category": "Healthcare & Digital Traceability",
+        "description": "Digital operations software engineered for the Blood Bank at Valle University Hospital (HUV). Replaced physical paper workflows with end-to-end clinical traceability and high-reliability interfaces.",
+        "badge": "HUV Clinical System",
+        "privacyNotice": "Institutional health privacy notice: Public deployment access is restricted."
       },
       {
         "id": 2,
-        "title": "Fintech Payment & Checkout",
-        "description": "High-conversion checkout flow featuring reactive form validation and end-to-end Stripe transaction processing.",
-        "category": "Fintech / Payments"
+        "title": "FitBrandly — White Label Application",
+        "category": "SaaS / Fitness Tech",
+        "description": "White-label web platform enabling fitness coaches and creator brands to manage, monetize, and distribute custom digital training programs and digital products.",
+        "badge": "SaaS Platform"
       },
       {
         "id": 3,
-        "title": "Developer Platform & Interactive Docs",
-        "description": "Technical documentation hub with instant fuzzy search and interactive live code playground viewer.",
-        "category": "Documentation / OS"
+        "title": "ITW LLC — Corporate Website",
+        "category": "Corporate Services (USA)",
+        "description": "Corporate website for US-based enterprise services, featuring high-performance modular components and polished corporate brand presentation.",
+        "badge": "In Production"
       },
       {
         "id": 4,
-        "title": "AI Studio & Prompt Engineering Suite",
-        "description": "Real-time LLM token streaming experimentation workspace with tactile micro-physics and dynamic markdown rendering.",
-        "category": "GenAI / Frontend"
+        "title": "Colombo Farmacéutica — Corporate Website",
+        "category": "Pharmaceutical Sector",
+        "description": "Corporate platform and catalog landing for the pharmaceutical sector, engineered for brand credibility, speed, and high-conversion reach.",
+        "badge": "In Production"
       },
       {
         "id": 5,
-        "title": "SaaS Analytics & Cloud Metrics",
-        "description": "Corporate telemetry dashboard with dynamic real-time metrics, interactive time series, and tabular exports.",
-        "category": "Analytics / Metrics"
+        "title": "SCF — Freelance Website",
+        "category": "Business Consulting (Luxembourg)",
+        "description": "Corporate freelance platform developed for Luxembourg business consulting, featuring clean European typography and minimalist layout.",
+        "badge": "In Production"
       },
       {
         "id": 6,
-        "title": "Real-Time Team Workspace",
-        "description": "Collaborative digital workspace with real-time interactive presence indicators and synchronized boards.",
-        "category": "Productivity / Web App"
+        "title": "COYMAN PROYECTOS — Corporate Website",
+        "category": "Engineering & Infrastructure",
+        "description": "Corporate landing page showcasing civil engineering projects, structural works, and commercial infrastructure capabilities.",
+        "badge": "In Production"
+      },
+      {
+        "id": 7,
+        "title": "SIPRAC — Corporate Website",
+        "category": "Security & Digital Solutions",
+        "description": "Corporate digital solution and landing page for corporate security services, operational management, and business leads.",
+        "badge": "In Production"
       }
     ]
   },

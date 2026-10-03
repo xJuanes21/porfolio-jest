@@ -48,10 +48,13 @@ const {
   </div>
 
   <!-- Carousel Track -->
-  <div class="overflow-visible">
-    <!-- Viewport: handles mobile scroll vs desktop hidden -->
+  <div class="carousel-outer relative">
+    <!-- Swipe-hint fade edges (mobile only) -->
+    <div class="carousel-fade-right pointer-events-none absolute top-0 right-0 bottom-0 w-8 z-10 bg-gradient-to-l from-[var(--carousel-bg,#050505)] to-transparent md:hidden"></div>
+
+    <!-- Viewport: horizontal scroll on mobile, JS-driven on desktop -->
     <div
-      class="carousel-viewport flex md:block overflow-x-auto snap-x snap-mandatory md:overflow-hidden md:snap-none py-6 -my-6 px-4 md:px-0 md:py-8 md:-my-8 scrollbar-hide"
+      class="carousel-viewport flex md:block overflow-x-auto snap-x snap-mandatory md:overflow-hidden md:snap-none py-4 -my-4 px-4 md:px-0 md:py-8 md:-my-8 scrollbar-hide"
     >
       <!-- Track: moves via JS on desktop -->
       <div class="carousel-track flex items-stretch md:transition-transform md:duration-500 md:ease-out">
@@ -60,23 +63,22 @@ const {
     </div>
   </div>
 
-  <!-- Pagination dots (Desktop) -->
-  <div class="carousel-pagination hidden md:flex justify-center gap-3 mt-12"></div>
+  <!-- Pagination dots (both mobile and desktop) -->
+  <div class="carousel-pagination flex justify-center gap-2.5 mt-6 md:mt-12"></div>
 </unified-carousel>
 
 <style define:vars={{ itemsVisible: itemsVisibleDesktop }}>
-  /* Base track gap */
+  /* Base track gap — tighter on mobile for peek-through */
   .carousel-track {
-    gap: 24px;
+    gap: 16px;
   }
-  
-  /* Children styling directly */
+
+  /* Children: scrollable cards on mobile */
   unified-carousel .carousel-track > :global(*) {
-    scroll-snap-align: center;
+    scroll-snap-align: start;
     flex-shrink: 0;
-    width: 85vw;
-    /* Simulate the mobile wrapper padding from the React version */
-    padding: 4rem 1rem;
+    width: 88vw;
+    max-width: 420px;
     transition: opacity 0.3s ease, transform 0.3s ease;
   }
 
@@ -85,9 +87,9 @@ const {
     .carousel-track {
       gap: 56px;
     }
-    
+
     unified-carousel .carousel-track > :global(*) {
-      padding: 0;
+      max-width: none;
       /* width = (100% - total_gap_space) / items_visible */
       width: calc((100% - ((var(--itemsVisible) - 1) * 56px)) / var(--itemsVisible));
     }
@@ -99,8 +101,8 @@ const {
   }
   /* Hide scrollbar for IE, Edge and Firefox */
   .scrollbar-hide {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   /* Highlight state injected by JS */
@@ -149,23 +151,71 @@ const {
         updateUI();
       };
 
-      for (let i = 0; i < maxIndex; i++) {
+      for (let i = 0; i < (isMobile ? totalItems : maxIndex); i++) {
         const dot = document.createElement("button");
-        dot.className = "h-2 rounded-full transition-all duration-500 w-2 bg-white/10 hover:bg-white/20";
-        dot.addEventListener("click", () => goTo(i));
+        dot.className = "h-2 rounded-full transition-all duration-500 w-2 bg-white/10 hover:bg-white/20 cursor-pointer";
+        dot.addEventListener("click", () => {
+          if (isMobile) {
+            const viewport = track.closest('.carousel-viewport') as HTMLElement;
+            const child = items[i];
+            if (viewport && child) {
+              viewport.scrollTo({ left: child.offsetLeft - 16, behavior: 'smooth' });
+            }
+          }
+          goTo(i);
+        });
         paginationContainer.appendChild(dot);
         dots.push(dot);
       }
 
-      const updateUI = () => {
-        // Update dots
+      // Sync dots with mobile scroll position
+      const viewport = track.closest('.carousel-viewport') as HTMLElement;
+      if (viewport) {
+        let scrollTimer: number | null = null;
+        viewport.addEventListener('scroll', () => {
+          if (!isMobile) return;
+          if (scrollTimer) clearTimeout(scrollTimer);
+          scrollTimer = window.setTimeout(() => {
+            const scrollLeft = viewport.scrollLeft;
+            let closestIdx = 0;
+            let closestDist = Infinity;
+            items.forEach((item, i) => {
+              const dist = Math.abs(item.offsetLeft - scrollLeft - 16);
+              if (dist < closestDist) {
+                closestDist = dist;
+                closestIdx = i;
+              }
+            });
+            currentIndex = closestIdx;
+            activeHighlightIndex = closestIdx;
+            updateMobileDots();
+          }, 60);
+        }, { passive: true });
+      }
+
+      const updateMobileDots = () => {
         dots.forEach((dot, i) => {
           if (i === currentIndex) {
-            dot.className = "h-2 rounded-full transition-all duration-500 w-10 bg-sky-400";
+            dot.className = "h-2 rounded-full transition-all duration-500 w-8 bg-sky-400 cursor-pointer";
           } else {
-            dot.className = "h-2 rounded-full transition-all duration-500 w-2 bg-white/10 hover:bg-white/20";
+            dot.className = "h-2 rounded-full transition-all duration-500 w-2 bg-white/15 hover:bg-white/25 cursor-pointer";
           }
         });
+      };
+
+      const updateUI = () => {
+        // Update dots
+        if (isMobile) {
+          updateMobileDots();
+        } else {
+          dots.forEach((dot, i) => {
+            if (i === currentIndex) {
+              dot.className = "h-2 rounded-full transition-all duration-500 w-10 bg-sky-400 cursor-pointer";
+            } else {
+              dot.className = "h-2 rounded-full transition-all duration-500 w-2 bg-white/10 hover:bg-white/20 cursor-pointer";
+            }
+          });
+        }
 
         // Highlight active item
         items.forEach((item, i) => {
